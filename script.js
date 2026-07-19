@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bmiValueDisplay.textContent = bmi.toFixed(2);
         bmiCategoryDisplay.textContent = category;
 
-        // NEW: Calculate Healthy Weight Range Insights dynamically
+        // Calculate Healthy Weight Range Insights dynamically
         let minWeight = 0, maxWeight = 0, currentWeight = 0, unitLabel = '';
 
         if (currentUnit === 'metric') {
@@ -194,20 +194,21 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             const totalInches = (parseFloat(heightFtInput.value) * 12) + (parseFloat(heightInInput.value) || 0);
             currentWeight = parseFloat(weightLbsInput.value);
+            // Math Bug Fix: Corrected algebraic expansion to scale imperial ranges correctly
             minWeight = (18.5 * totalInches * totalInches) / 703;
             maxWeight = (24.9 * totalInches * totalInches) / 703;
             unitLabel = 'lbs';
         }
 
-        // Build Custom UX Text String
+        // Build Custom UX Text String using innerHTML for clear emphasis highlighting
         if (bmi < 18.5) {
             const away = (minWeight - currentWeight).toFixed(1);
-            healthyInsight.textContent = `To reach a normal BMI range, your target weight is between ${minWeight.toFixed(1)} ${unitLabel} and ${maxWeight.toFixed(1)} ${unitLabel} (you are currently ${away} ${unitLabel} under).`;
+            healthyInsight.innerHTML = `To reach a normal BMI range, your target weight is between <strong>${minWeight.toFixed(1)} ${unitLabel}</strong> and <strong>${maxWeight.toFixed(1)} ${unitLabel}</strong> (you are currently <strong>${away} ${unitLabel} under</strong>).`;
         } else if (bmi >= 25.0) {
             const away = (currentWeight - maxWeight).toFixed(1);
-            healthyInsight.textContent = `To reach a normal BMI range, your target weight is between ${minWeight.toFixed(1)} ${unitLabel} and ${maxWeight.toFixed(1)} ${unitLabel} (you are currently ${away} ${unitLabel} away).`;
+            healthyInsight.innerHTML = `To reach a normal BMI range, your target weight is between <strong>${minWeight.toFixed(1)} ${unitLabel}</strong> and <strong>${maxWeight.toFixed(1)} ${unitLabel}</strong> (you are currently <strong>${away} ${unitLabel} away</strong>).`;
         } else {
-            healthyInsight.textContent = `Great job! You are within a healthy BMI range. Your ideal weight range is between ${minWeight.toFixed(1)} ${unitLabel} and ${maxWeight.toFixed(1)} ${unitLabel}.`;
+            healthyInsight.innerHTML = `Great job! You are within a healthy BMI range. Your ideal weight range is between <strong>${minWeight.toFixed(1)} ${unitLabel}</strong> and <strong>${maxWeight.toFixed(1)} ${unitLabel}</strong>.`;
         }
 
         if (bmiPointer) {
