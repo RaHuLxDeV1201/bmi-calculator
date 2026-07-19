@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <!-- FIXED: Embedded Favicon Data-URI so the browser tab logo works perfectly too -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2310b981'%3E%3Cpath d='M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm8 3a5 5 0 00-5 5h2a3 3 0 016 0h2a5 5 0 00-5-5z'/%3E%3C/svg%3E">
+    <!-- FIXED: Pointed Favicon to your public folder asset -->
+    <link rel="icon" type="image/svg+xml" href="public/Logo.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minimalist BMI Calculator</title>
     <!-- Tailwind CSS Engine -->
@@ -35,12 +35,8 @@
         </button>
 
         <header class="text-center mb-6">
-            <!-- FIXED: Beautiful, Pure Inline SVG Fitness Scale Logo (No external files needed!) -->
-            <div class="mx-auto mb-2 w-12 h-12 flex items-center justify-center text-emerald-500 dark:text-emerald-400">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-full h-full">
-                    <path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm8 3a5 5 0 00-5 5h2a3 3 0 016 0h2a5 5 0 00-5-5zm0 2a3 3 0 00-1 5.82V16h2v-1.18A3 3 0 0012 9z"/>
-                </svg>
-            </div>
+            <!-- FIXED: Pointed src directly to public/Logo.svg with dynamic dark-mode inversion filtering -->
+            <img src="public/Logo.svg" alt="App Logo" class="w-12 h-12 mx-auto mb-2 object-contain dark:invert">
             <h1 class="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">BMI Calculator</h1>
             <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Calculate your Body Mass Index instantly</p>
         </header>
