@@ -294,18 +294,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // History Interactions
     if (historyToggleBtn && historyContent && historyChevron) {
         historyToggleBtn.addEventListener('click', () => {
-            const isHidden = historyContent.classList.toggle('hidden');
-            historyChevron.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
-            if (!isHidden) renderHistory();
-        });
-    }
+            // Check current display state explicitly
+            const isCurrentlyHidden = historyContent.classList.contains('hidden') || historyContent.style.display === 'none';
 
-    if (clearHistoryBtn) {
-        clearHistoryBtn.addEventListener('click', () => {
-            try {
-                localStorage.removeItem('bmiHistory');
-            } catch (e) { }
-            renderHistory();
+            if (isCurrentlyHidden) {
+                // Open Drawer
+                historyContent.classList.remove('hidden');
+                historyContent.style.display = 'block';
+                historyChevron.style.transform = 'rotate(180deg)';
+                renderHistory();
+            } else {
+                // Close Drawer
+                historyContent.classList.add('hidden');
+                historyContent.style.display = 'none';
+                historyChevron.style.transform = 'rotate(0deg)';
+            }
         });
     }
 
