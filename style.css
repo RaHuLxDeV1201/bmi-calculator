@@ -15,6 +15,7 @@ input[type=number] {
     opacity: 0;
     transform: translateY(12px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -48,4 +49,30 @@ input[type=number] {
   background-color: #fef2f2;
   border: 1px solid #fee2e2;
   color: #b91c1c;
+}
+/* --- Append to your existing style.css --- */
+
+/* Dark Mode Color Theme Overrides for the Result Card */
+.dark .theme-underweight {
+  background-color: rgba(12, 74, 110, 0.4);
+  border: 1px solid #075985;
+  color: #38bdf8;
+}
+
+.dark .theme-normal {
+  background-color: rgba(6, 78, 59, 0.4);
+  border: 1px solid #065f46;
+  color: #34d399;
+}
+
+.dark .theme-overweight {
+  background-color: rgba(120, 53, 15, 0.4);
+  border: 1px solid #92400e;
+  color: #fbbf24;
+}
+
+.dark .theme-obese {
+  background-color: rgba(127, 29, 29, 0.4);
+  border: 1px solid #991b1b;
+  color: #f87171;
 }
