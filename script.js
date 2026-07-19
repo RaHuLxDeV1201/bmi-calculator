@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const bmiCategoryDisplay = document.getElementById('bmiCategory');
     const bmiPointer = document.getElementById('bmiPointer');
     const healthyInsight = document.getElementById('healthyInsight');
-    
+
     const darkModeToggle = document.getElementById('darkModeToggle');
     const moonIcon = document.getElementById('moonIcon');
     const sunIcon = document.getElementById('sunIcon');
@@ -27,13 +27,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const imperialHeightError = document.getElementById('imperialHeightError');
     const weightLbsError = document.getElementById('weightLbsError');
 
-    let currentUnit = 'metric'; 
+    // History Log DOM Hooks
+    const historyToggleBtn = document.getElementById('historyToggleBtn');
+    const historyChevron = document.getElementById('historyChevron');
+    const historyContent = document.getElementById('historyContent');
+    const historyList = document.getElementById('historyList');
+    const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+
+    let currentUnit = 'metric';
 
     // Dark Mode Engine Logic
     let isDark = false;
     try {
-        isDark = localStorage.getItem('theme') === 'dark' || 
-                 (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        isDark = localStorage.getItem('theme') === 'dark' ||
+            (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
     } catch (e) {
         isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
@@ -53,11 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isNowDark) {
             moonIcon.classList.add('hidden');
             sunIcon.classList.remove('hidden');
-            try { localStorage.setItem('theme', 'dark'); } catch (e) {}
+            try { localStorage.setItem('theme', 'dark'); } catch (e) { }
         } else {
             moonIcon.classList.remove('hidden');
             sunIcon.classList.add('hidden');
-            try { localStorage.setItem('theme', 'light'); } catch (e) {}
+            try { localStorage.setItem('theme', 'light'); } catch (e) { }
         }
     });
 
@@ -95,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         errorEl.textContent = message;
         errorEl.classList.remove('hidden');
         inputEl.classList.remove('animate-shake', 'border-slate-200', 'dark:border-slate-600');
-        void inputEl.offsetWidth; 
+        void inputEl.offsetWidth;
         inputEl.classList.add('border-rose-500', 'focus:ring-rose-500', 'animate-shake');
         inputEl.addEventListener('animationend', () => inputEl.classList.remove('animate-shake'), { once: true });
     };
@@ -165,6 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 bmi = (parseFloat(weightLbsInput.value) / (totalInches * totalInches)) * 703;
             }
             displayResult(bmi);
+            saveHistoryLog(bmi);
         });
     }
 
@@ -194,7 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             const totalInches = (parseFloat(heightFtInput.value) * 12) + (parseFloat(heightInInput.value) || 0);
             currentWeight = parseFloat(weightLbsInput.value);
-            // Math Bug Fix: Corrected algebraic expansion to scale imperial ranges correctly
             minWeight = (18.5 * totalInches * totalInches) / 703;
             maxWeight = (24.9 * totalInches * totalInches) / 703;
             unitLabel = 'lbs';
@@ -217,6 +224,93 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         resultCard.classList.remove('hidden');
     };
+
+    // HISTORY ENGINE METHODS
+    const getHistory = () => {
+        try {
+            return JSON.parse(localStorage.getItem('bmiHistory')) || [];
+        } catch (e) {
+            return [];
+        }
+    };
+
+    const saveHistoryLog = (bmi) => {
+        const history = getHistory();
+        let category = '';
+        if (bmi < 18.5) category = 'Underweight';
+        else if (bmi < 25.0) category = 'Normal';
+        else if (bmi < 30.0) category = 'Overweight';
+        else category = 'Obese';
+
+        const newEntry = {
+            id: Date.now(),
+            bmi: bmi.toFixed(2),
+            category: category,
+            date: new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+        };
+
+        history.unshift(newEntry); // Prepend to show latest first
+        if (history.length > 5) history.pop(); // Cap history pool at 5 entries
+
+        try {
+            localStorage.setItem('bmiHistory', JSON.stringify(history));
+        } catch (e) { }
+
+        renderHistory();
+    };
+
+    const renderHistory = () => {
+        if (!historyList) return;
+        const history = getHistory();
+
+        if (history.length === 0) {
+            historyList.innerHTML = `<p class="text-xs text-center text-slate-400 dark:text-slate-500 py-3 font-medium">No calculation logs found.</p>`;
+            if (clearHistoryBtn) clearHistoryBtn.classList.add('hidden');
+            return;
+        }
+
+        const categoryColors = {
+            'Underweight': 'text-sky-500 bg-sky-50 dark:bg-sky-950/40',
+            'Normal': 'text-emerald-500 bg-emerald-50 dark:bg-emerald-950/40',
+            'Overweight': 'text-amber-500 bg-amber-50 dark:bg-amber-950/40',
+            'Obese': 'text-rose-500 bg-rose-50 dark:bg-rose-950/40'
+        };
+
+        historyList.innerHTML = history.map(item => `
+            <div class="flex items-center justify-between p-2.5 rounded-xl border border-slate-100 dark:border-slate-700/40 bg-slate-50/50 dark:bg-slate-900/30">
+                <div class="flex items-center gap-3">
+                    <span class="text-base font-black text-slate-700 dark:text-slate-200">${item.bmi}</span>
+                    <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-md ${categoryColors[item.category] || 'text-slate-500'}">
+                        ${item.category}
+                    </span>
+                </div>
+                <span class="text-[11px] text-slate-400 dark:text-slate-500 font-medium">${item.date}</span>
+            </div>
+        `).join('');
+
+        if (clearHistoryBtn) clearHistoryBtn.classList.remove('hidden');
+    };
+
+    // History Interactions
+    if (historyToggleBtn && historyContent && historyChevron) {
+        historyToggleBtn.addEventListener('click', () => {
+            const isHidden = historyContent.classList.toggle('hidden');
+            historyChevron.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
+            if (!isHidden) renderHistory();
+        });
+    }
+
+    if (clearHistoryBtn) {
+        clearHistoryBtn.addEventListener('click', () => {
+            try {
+                localStorage.removeItem('bmiHistory');
+            } catch (e) { }
+            renderHistory();
+        });
+    }
+
+    // Initialize History on Load
+    renderHistory();
 
     if (resetBtn) {
         resetBtn.addEventListener('click', () => {
