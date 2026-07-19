@@ -36,7 +36,7 @@
             </svg>
         </button>
 
-        <header class="text-center mb-6 pr-10 text-left sm:text-center">
+        <header class="text-center mb-6 pr-10 sm:pr-0">
             <h1 class="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">BMI Calculator</h1>
             <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Calculate your Body Mass Index instantly</p>
         </header>
@@ -120,7 +120,6 @@
             <div id="bmiValue" class="text-4xl font-black my-1">--.--</div>
             <p id="bmiCategory" class="text-base font-bold"></p>
 
-            <!-- NEW: Interactive Health Insights Display Element -->
             <p id="healthyInsight"
                 class="text-xs sm:text-sm mt-3 font-medium opacity-85 leading-relaxed border-t border-black/5 dark:border-white/10 pt-3">
             </p>
@@ -140,18 +139,21 @@
                 </div>
             </div>
         </section>
+
         <!-- History Drawer Section -->
         <section class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-700/60">
             <button id="historyToggleBtn" type="button"
                 class="w-full flex items-center justify-between py-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors focus:outline-none">
                 <span class="flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 min-w-[16px] min-h-[16px]" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                     View Recent History
                 </span>
-                <svg id="historyChevron" class="w-4 h-4 transform transition-transform duration-200" fill="none"
+                <svg id="historyChevron"
+                    class="w-4 h-4 min-w-[16px] min-h-[16px] transform transition-transform duration-200" fill="none"
                     stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
                 </svg>
