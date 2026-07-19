@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const bmiValueDisplay = document.getElementById('bmiValue');
     const bmiCategoryDisplay = document.getElementById('bmiCategory');
     const bmiPointer = document.getElementById('bmiPointer');
+    const healthyInsight = document.getElementById('healthyInsight');
     
     const darkModeToggle = document.getElementById('darkModeToggle');
     const moonIcon = document.getElementById('moonIcon');
@@ -28,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentUnit = 'metric'; 
 
-    // Dark Mode Core
+    // Dark Mode Engine Logic
     let isDark = false;
     try {
         isDark = localStorage.getItem('theme') === 'dark' || 
@@ -60,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Unit Switch Engine
+    // Unit Transition Core
     const setUnitSystem = (unit) => {
         if (currentUnit === unit) return;
         currentUnit = unit;
@@ -88,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (metricToggleBtn) metricToggleBtn.addEventListener('click', () => setUnitSystem('metric'));
     if (imperialToggleBtn) imperialToggleBtn.addEventListener('click', () => setUnitSystem('imperial'));
 
-    // Error UI Visualizers
+    // Input Validation Error Triggers
     const showError = (inputEl, errorEl, message) => {
         if (!inputEl || !errorEl) return;
         errorEl.textContent = message;
@@ -113,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Validation Engine
     const validateInputs = () => {
         clearValidation();
         let isValid = true;
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return isValid;
     };
 
-    // Calculation Processing
+    // Form Processing Engine
     if (bmiForm) {
         bmiForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -168,8 +168,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Displays Score Metrics and Interactive Health Target Text Insights
     const displayResult = (bmi) => {
-        if (!resultCard || !bmiValueDisplay || !bmiCategoryDisplay) return;
+        if (!resultCard || !bmiValueDisplay || !bmiCategoryDisplay || !healthyInsight) return;
         let category = '', themeClass = '';
 
         if (bmi < 18.5) { category = 'Underweight'; themeClass = 'theme-underweight'; }
@@ -180,6 +181,34 @@ document.addEventListener('DOMContentLoaded', () => {
         resultCard.className = 'mt-8 p-5 rounded-xl text-center animate-result ' + themeClass;
         bmiValueDisplay.textContent = bmi.toFixed(2);
         bmiCategoryDisplay.textContent = category;
+
+        // NEW: Calculate Healthy Weight Range Insights dynamically
+        let minWeight = 0, maxWeight = 0, currentWeight = 0, unitLabel = '';
+
+        if (currentUnit === 'metric') {
+            const heightM = parseFloat(heightInput.value) / 100;
+            currentWeight = parseFloat(weightInput.value);
+            minWeight = 18.5 * heightM * heightM;
+            maxWeight = 24.9 * heightM * heightM;
+            unitLabel = 'kg';
+        } else {
+            const totalInches = (parseFloat(heightFtInput.value) * 12) + (parseFloat(heightInInput.value) || 0);
+            currentWeight = parseFloat(weightLbsInput.value);
+            minWeight = (18.5 * totalInches * totalInches) / 703;
+            maxWeight = (24.9 * totalInches * totalInches) / 703;
+            unitLabel = 'lbs';
+        }
+
+        // Build Custom UX Text String
+        if (bmi < 18.5) {
+            const away = (minWeight - currentWeight).toFixed(1);
+            healthyInsight.textContent = `To reach a normal BMI range, your target weight is between ${minWeight.toFixed(1)} ${unitLabel} and ${maxWeight.toFixed(1)} ${unitLabel} (you are currently ${away} ${unitLabel} under).`;
+        } else if (bmi >= 25.0) {
+            const away = (currentWeight - maxWeight).toFixed(1);
+            healthyInsight.textContent = `To reach a normal BMI range, your target weight is between ${minWeight.toFixed(1)} ${unitLabel} and ${maxWeight.toFixed(1)} ${unitLabel} (you are currently ${away} ${unitLabel} away).`;
+        } else {
+            healthyInsight.textContent = `Great job! You are within a healthy BMI range. Your ideal weight range is between ${minWeight.toFixed(1)} ${unitLabel} and ${maxWeight.toFixed(1)} ${unitLabel}.`;
+        }
 
         if (bmiPointer) {
             let pct = ((bmi - 15) / (40 - 15)) * 100;
@@ -194,10 +223,11 @@ document.addEventListener('DOMContentLoaded', () => {
             clearValidation();
             if (resultCard) resultCard.classList.add('hidden');
             if (bmiPointer) bmiPointer.style.left = '0%';
+            if (healthyInsight) healthyInsight.textContent = '';
         });
     }
 
-    // Real-Time Clear Engine
+    // Real-Time Clear Error Listeners
     [heightInput, weightInput, heightFtInput, heightInInput, weightLbsInput].forEach(input => {
         if (!input) return;
         input.addEventListener('input', () => {
