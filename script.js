@@ -249,8 +249,8 @@ document.addEventListener('DOMContentLoaded', () => {
             date: new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
         };
 
-        history.unshift(newEntry); // Prepend to show latest first
-        if (history.length > 5) history.pop(); // Cap history pool at 5 entries
+        history.unshift(newEntry);
+        if (history.length > 5) history.pop();
 
         try {
             localStorage.setItem('bmiHistory', JSON.stringify(history));
@@ -264,11 +264,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const history = getHistory();
 
         if (history.length === 0) {
-            // Revert list back to empty placeholder state
             historyList.innerHTML = `<p class="text-xs text-center text-slate-400 dark:text-slate-500 py-3 font-medium">No calculation logs found.</p>`;
             if (clearHistoryBtn) {
                 clearHistoryBtn.classList.add('hidden');
-                clearHistoryBtn.style.display = 'none'; // Hard reset display property
+                clearHistoryBtn.style.setProperty('display', 'none', 'important');
             }
             return;
         }
@@ -294,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (clearHistoryBtn) {
             clearHistoryBtn.classList.remove('hidden');
-            clearHistoryBtn.style.display = 'block'; // Ensure button is fully interactive
+            clearHistoryBtn.style.setProperty('display', 'block', 'important');
         }
     };
 
@@ -316,16 +315,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Missing Clear History Trigger Hooked In Here
+    // Clear History Button Engine (Fully Corrected & Isolated)
     if (clearHistoryBtn) {
         clearHistoryBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            e.stopPropagation(); // Stops the scroll container from intercepting the click
+            e.stopPropagation();
             try {
-                localStorage.removeItem('bmiHistory');
-                localStorage.setItem('bmiHistory', JSON.stringify([])); // Forces an absolute empty state
-            } catch (e) { }
-            renderHistory(); // Triggers the visual UI wipe
+                localStorage.setItem('bmiHistory', JSON.stringify([]));
+            } catch (err) { }
+            renderHistory();
         });
     }
 
