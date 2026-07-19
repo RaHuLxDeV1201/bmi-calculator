@@ -264,8 +264,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const history = getHistory();
 
         if (history.length === 0) {
+            // Revert list back to empty placeholder state
             historyList.innerHTML = `<p class="text-xs text-center text-slate-400 dark:text-slate-500 py-3 font-medium">No calculation logs found.</p>`;
-            if (clearHistoryBtn) clearHistoryBtn.classList.add('hidden');
+            if (clearHistoryBtn) {
+                clearHistoryBtn.classList.add('hidden');
+                clearHistoryBtn.style.display = 'none'; // Hard reset display property
+            }
             return;
         }
 
@@ -288,7 +292,10 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `).join('');
 
-        if (clearHistoryBtn) clearHistoryBtn.classList.remove('hidden');
+        if (clearHistoryBtn) {
+            clearHistoryBtn.classList.remove('hidden');
+            clearHistoryBtn.style.display = 'block'; // Ensure button is fully interactive
+        }
     };
 
     // History Interactions
@@ -311,11 +318,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Missing Clear History Trigger Hooked In Here
     if (clearHistoryBtn) {
-        clearHistoryBtn.addEventListener('click', () => {
+        clearHistoryBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation(); // Stops the scroll container from intercepting the click
             try {
                 localStorage.removeItem('bmiHistory');
+                localStorage.setItem('bmiHistory', JSON.stringify([])); // Forces an absolute empty state
             } catch (e) { }
-            renderHistory();
+            renderHistory(); // Triggers the visual UI wipe
         });
     }
 
