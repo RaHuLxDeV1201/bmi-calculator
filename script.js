@@ -16,30 +16,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const moonIcon = document.getElementById('moonIcon');
     const sunIcon = document.getElementById('sunIcon');
 
+   
     /* ==========================================================================
-       1. DARK MODE TOGGLE ENGINE
-       ========================================================================== */
-    // Check for saved user preferences or system configurations on initial boot
-    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
+   1. BULLETPROOF DARK MODE TOGGLE ENGINE
+   ========================================================================== */
+let isDark = false;
+
+// Safe wrapper: If the browser blocks localStorage locally, fallback gracefully
+try {
+    isDark = localStorage.getItem('theme') === 'dark' || 
+             (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+} catch (error) {
+    // If localStorage fails, use the user's system device preferences instead
+    isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+// Initial theme application
+if (isDark) {
+    document.documentElement.classList.add('dark');
+    moonIcon.classList.add('hidden');
+    sunIcon.classList.remove('hidden');
+} else {
+    document.documentElement.classList.remove('dark');
+    moonIcon.classList.remove('hidden');
+    sunIcon.classList.add('hidden');
+}
+
+// Click Event Listener
+darkModeToggle.addEventListener('click', () => {
+    // .toggle() automatically adds the class if missing, or removes it if present
+    const isNowDark = document.documentElement.classList.toggle('dark');
+    
+    if (isNowDark) {
         moonIcon.classList.add('hidden');
         sunIcon.classList.remove('hidden');
+        try { localStorage.setItem('theme', 'dark'); } catch (e) {}
+    } else {
+        moonIcon.classList.remove('hidden');
+        sunIcon.classList.add('hidden');
+        try { localStorage.setItem('theme', 'light'); } catch (e) {}
     }
-
-    darkModeToggle.addEventListener('click', () => {
-        if (document.documentElement.classList.contains('dark')) {
-            document.documentElement.classList.remove('dark');
-            moonIcon.classList.remove('hidden');
-            sunIcon.classList.add('hidden');
-            localStorage.setItem('theme', 'light');
-        } else {
-            document.documentElement.classList.add('dark');
-            moonIcon.classList.add('hidden');
-            sunIcon.classList.remove('hidden');
-            localStorage.setItem('theme', 'dark');
-        }
-    });
-
+});
     /* ==========================================================================
        2. REUSABLE ERROR + SHAKE SYSTEM (FIXED)
        ========================================================================== */
