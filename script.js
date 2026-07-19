@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================================
-    // 1. DOM ELEMENT HOOKS
+    // 1. CORE DOM HOOKS
     // ==========================================================================
     const bmiForm = document.getElementById('bmiForm');
     const resetBtn = document.getElementById('resetBtn');
@@ -9,35 +9,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const bmiCategoryDisplay = document.getElementById('bmiCategory');
     const bmiPointer = document.getElementById('bmiPointer');
     
-    // Theme UI Hooks
+    // Theme Handles
     const darkModeToggle = document.getElementById('darkModeToggle');
     const moonIcon = document.getElementById('moonIcon');
     const sunIcon = document.getElementById('sunIcon');
 
-    // Unit Toggle System Hooks
+    // System Selection Handles
     const metricToggleBtn = document.getElementById('metricToggleBtn');
     const imperialToggleBtn = document.getElementById('imperialToggleBtn');
     const metricFields = document.getElementById('metricFields');
     const imperialFields = document.getElementById('imperialFields');
 
-    // Input & Error Hooks (Metric)
+    // Inputs & Errors (Metric)
     const heightInput = document.getElementById('height');
     const weightInput = document.getElementById('weight');
     const heightError = document.getElementById('heightError');
     const weightError = document.getElementById('weightError');
 
-    // Input & Error Hooks (Imperial)
+    // Inputs & Errors (Imperial)
     const heightFtInput = document.getElementById('heightFt');
     const heightInInput = document.getElementById('heightIn');
     const weightLbsInput = document.getElementById('weightLbs');
     const imperialHeightError = document.getElementById('imperialHeightError');
     const weightLbsError = document.getElementById('weightLbsError');
 
-    // Application State Tracking
+    // State Metric
     let currentUnit = 'metric'; 
 
     // ==========================================================================
-    // 2. DARK MODE LOGIC ENGINE
+    // 2. DARK MODE CORE ENGINE
     // ==========================================================================
     let isDark = false;
     try {
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================================================
-    // 3. UNIT MEASUREMENT SWITCH SYSTEM
+    // 3. SEGMENTED UNIT SWITCH SYSTEM (PRO FIX)
     // ==========================================================================
     const setUnitSystem = (unit) => {
         if (currentUnit === unit) return;
@@ -81,23 +81,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (resultCard) resultCard.classList.add('hidden');
         if (bmiPointer) bmiPointer.style.left = '0%';
 
-        const activeClasses = ['bg-white', 'dark:bg-slate-600', 'shadow-sm', 'text-slate-800', 'dark:text-white'];
-        const inactiveClasses = ['text-slate-400', 'dark:text-slate-400', 'hover:text-slate-600', 'dark:hover:text-slate-200'];
+        // Rewriting class names directly removes any active Tailwind conflicts safely
+        const activeStyle = "flex-1 text-center py-2 text-xs sm:text-sm font-bold rounded-lg bg-white dark:bg-slate-600 shadow-sm text-slate-800 dark:text-white transition-all duration-200";
+        const inactiveStyle = "flex-1 text-center py-2 text-xs sm:text-sm font-bold rounded-lg text-slate-400 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-all duration-200";
 
         if (currentUnit === 'metric') {
-            if (metricToggleBtn) metricToggleBtn.classList.add(...activeClasses);
-            if (metricToggleBtn) metricToggleBtn.classList.remove(...inactiveClasses);
-            if (imperialToggleBtn) imperialToggleBtn.classList.remove(...activeClasses);
-            if (imperialToggleBtn) imperialToggleBtn.classList.add(...inactiveClasses);
-
+            if (metricToggleBtn) metricToggleBtn.className = activeStyle;
+            if (imperialToggleBtn) imperialToggleBtn.className = inactiveStyle;
             if (metricFields) metricFields.classList.remove('hidden');
             if (imperialFields) imperialFields.classList.add('hidden');
         } else {
-            if (imperialToggleBtn) imperialToggleBtn.classList.add(...activeClasses);
-            if (imperialToggleBtn) imperialToggleBtn.classList.remove(...inactiveClasses);
-            if (metricToggleBtn) metricToggleBtn.classList.remove(...activeClasses);
-            if (metricToggleBtn) metricToggleBtn.classList.add(...inactiveClasses);
-
+            if (imperialToggleBtn) imperialToggleBtn.className = activeStyle;
+            if (metricToggleBtn) metricToggleBtn.className = inactiveStyle;
             if (imperialFields) imperialFields.classList.remove('hidden');
             if (metricFields) metricFields.classList.add('hidden');
         }
@@ -107,16 +102,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (imperialToggleBtn) imperialToggleBtn.addEventListener('click', () => setUnitSystem('imperial'));
 
     // ==========================================================================
-    // 4. CLEAN & ERROR INTERACTION VISUALIZERS
+    // 4. ANIMATION & ERROR CLEARANCE VISUALIZERS
     // ==========================================================================
     const showError = (inputEl, errorEl, message) => {
         if (!inputEl || !errorEl) return;
         errorEl.textContent = message;
         errorEl.classList.remove('hidden');
         
-        // Remove standard borders to let error styles show perfectly
         inputEl.classList.remove('animate-shake', 'border-slate-200', 'dark:border-slate-600');
-        void inputEl.offsetWidth; // Trigger DOM reflow calculation
+        void inputEl.offsetWidth; // Force Reflow
         
         inputEl.classList.add('border-rose-500', 'focus:ring-rose-500', 'animate-shake');
 
@@ -141,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ==========================================================================
-    // 5. DATA VALIDATION ENGINE
+    // 5. FORM INPUT VALIDATOR
     // ==========================================================================
     const validateInputs = () => {
         clearValidation();
@@ -192,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ==========================================================================
-    // 6. CALCULATION & SUBMISSION HANDLERS
+    // 6. PROCESSING & CALCULATIONS
     // ==========================================================================
     if (bmiForm) {
         bmiForm.addEventListener('submit', (e) => {
@@ -269,19 +263,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================================================
-    // 7. REAL-TIME CLEARANCE MECHANISM (PROTECTED INTERIOR LOOP)
+    // 7. SCOPED REAL-TIME REMOVAL ENGINE (BUGS FIXED)
     // ==========================================================================
     const inputsList = [heightInput, weightInput, heightFtInput, heightInInput, weightLbsInput];
     
     inputsList.forEach(input => {
-        if (!input) return; // Safely ignore fields if they aren't loaded in the HTML view yet
+        if (!input) return;
 
         input.addEventListener('input', () => {
-            // Instantly clear out error rings and restore default styles
+            // Restore native outlines instantly on backspaces/deletes
             input.classList.remove('border-rose-500', 'focus:ring-rose-500', 'animate-shake');
             input.classList.add('border-slate-200', 'dark:border-slate-600');
 
-            // Hide text warnings dynamically
+            // Hide targeted tracking elements dynamically
             if (input === heightInput && heightError) {
                 heightError.classList.add('hidden');
             } else if (input === weightInput && weightError) {
