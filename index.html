@@ -20,11 +20,9 @@
         <!-- Theme Toggle Button -->
         <button id="darkModeToggle" type="button" aria-label="Toggle theme"
             class="absolute top-6 right-6 p-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 transition-colors duration-200 focus:outline-none">
-            <!-- Moon Icon -->
             <svg id="moonIcon" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
             </svg>
-            <!-- Sun Icon -->
             <svg id="sunIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M16.243 17.657l.707.707M6.343 6.343l.707-.707M14.25 12a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
             </svg>
@@ -35,7 +33,6 @@
             <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Calculate your Body Mass Index instantly</p>
         </header>
 
-        <!-- Form Layout Engine -->
         <form id="bmiForm" class="space-y-6" novalidate>
             
             <!-- Unit Selection Bar -->
@@ -50,7 +47,7 @@
                 </button>
             </div>
 
-            <!-- METRIC INPUT MODULE -->
+            <!-- METRIC FIELDS WRAPPER -->
             <div id="metricFields" class="space-y-6">
                 <div>
                     <label for="height" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Height (cm)</label>
@@ -67,7 +64,7 @@
                 </div>
             </div>
 
-            <!-- IMPERIAL INPUT MODULE (Hidden Initially) -->
+            <!-- IMPERIAL FIELDS WRAPPER -->
             <div id="imperialFields" class="space-y-6 hidden">
                 <div>
                     <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Height</label>
@@ -95,7 +92,7 @@
             <!-- Controls -->
             <div class="flex flex-col sm:flex-row gap-3 pt-2">
                 <button type="submit" 
-                    class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                    class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     Calculate BMI
                 </button>
                 <button type="button" id="resetBtn" 
@@ -111,7 +108,6 @@
             <div id="bmiValue" class="text-4xl font-black my-1">--.--</div>
             <p id="bmiCategory" class="text-base font-bold"></p>
 
-            <!-- Visual Gauge Scale -->
             <div class="mt-6 relative pt-4">
                 <div class="h-3 w-full rounded-full flex overflow-hidden bg-slate-100 dark:bg-slate-900">
                     <div class="w-1/4 bg-sky-400" title="Underweight"></div>
@@ -119,15 +115,9 @@
                     <div class="w-1/4 bg-amber-500" title="Overweight"></div>
                     <div class="w-1/4 bg-rose-500" title="Obese"></div>
                 </div>
-                
                 <div id="bmiPointer" class="absolute top-2.5 -ml-2 w-4 h-4 bg-slate-800 dark:bg-white border-2 border-white dark:border-slate-800 rounded-full shadow-md transition-all duration-500 ease-out" style="left: 0%;"></div>
-                
                 <div class="flex justify-between text-[10px] font-bold text-slate-400 dark:text-slate-500 mt-1.5 px-1">
-                    <span>15</span>
-                    <span>18.5</span>
-                    <span>25</span>
-                    <span>30</span>
-                    <span>40+</span>
+                    <span>15</span><span>18.5</span><span>25</span><span>30</span><span>40+</span>
                 </div>
             </div>
         </section>
