@@ -120,14 +120,15 @@
             </div>
         </form>
 
-        <!-- Result Card -->
-        <section id="resultCard" aria-live="polite" class="mt-8 p-5 rounded-xl text-center hidden">
+        <!-- Result Card: Default Green Pristine/Cleared State Layout -->
+        <section id="resultCard" aria-live="polite" class="mt-8 p-5 rounded-xl text-center transition-all bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900 text-emerald-900 dark:text-emerald-300">
             <h2 class="text-xs uppercase tracking-wider font-bold opacity-75">Your Score</h2>
             <div id="bmiValue" class="text-4xl font-black my-1">--.--</div>
-            <p id="bmiCategory" class="text-base font-bold"></p>
+            <p id="bmiCategory" class="text-base font-bold uppercase tracking-wide mt-1 text-emerald-500 dark:text-emerald-400">Ready to Calculate</p>
 
             <p id="healthyInsight"
                 class="text-xs sm:text-sm mt-3 font-medium opacity-85 leading-relaxed border-t border-black/5 dark:border-white/10 pt-3">
+                Enter your metrics above to discover your Body Mass Index.
             </p>
 
             <div class="mt-6 relative pt-4">
@@ -222,6 +223,7 @@
             const setUnitSystem = (system) => {
                 currentUnit = system;
                 clearValidationErrors();
+                checkAndHandleEmptyData();
                 if (system === 'metric') {
                     metricToggleBtn.className = "flex-1 text-center py-2 text-xs sm:text-sm font-bold rounded-lg bg-white dark:bg-slate-600 shadow-sm text-slate-800 dark:text-white transition-all duration-200";
                     imperialToggleBtn.className = "flex-1 text-center py-2 text-xs sm:text-sm font-bold rounded-lg text-slate-400 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-all duration-200";
@@ -238,6 +240,38 @@
             metricToggleBtn.addEventListener('click', () => setUnitSystem('metric'));
             imperialToggleBtn.addEventListener('click', () => setUnitSystem('imperial'));
 
+            // Reset Result Box to Safe Green Layout Configuration
+            const resetResultToGreenBox = () => {
+                resultCard.className = "mt-8 p-5 rounded-xl text-center transition-all bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900 text-emerald-900 dark:text-emerald-300";
+                bmiValueDisplay.innerText = "--.--";
+                bmiCategoryDisplay.innerText = "Ready to Calculate";
+                bmiCategoryDisplay.className = "text-base font-bold uppercase tracking-wide mt-1 text-emerald-500 dark:text-emerald-400";
+                healthyInsight.innerText = "Enter your metrics above to discover your Body Mass Index.";
+                bmiPointer.style.left = '0%';
+            };
+
+            // Monitors and updates UI when all fields are empty/deleted
+            const checkAndHandleEmptyData = () => {
+                const height = document.getElementById('height').value;
+                const weight = document.getElementById('weight').value;
+                const heightFt = document.getElementById('heightFt').value;
+                const heightIn = document.getElementById('heightIn').value;
+                const weightLbs = document.getElementById('weightLbs').value;
+
+                if (currentUnit === 'metric' && !height && !weight) {
+                    resetResultToGreenBox();
+                    clearValidationErrors();
+                } else if (currentUnit === 'imperial' && !heightFt && !heightIn && !weightLbs) {
+                    resetResultToGreenBox();
+                    clearValidationErrors();
+                }
+            };
+
+            // Bind check to all input events to listen for manual baseline deletion transitions
+            ['height', 'weight', 'heightFt', 'heightIn', 'weightLbs'].forEach(id => {
+                document.getElementById(id).addEventListener('input', checkAndHandleEmptyData);
+            });
+
             // Optimized ShowError with Shake & Border Alert Micro-Interactions
             const showError = (errorElementId, inputElementIds, message) => {
                 const errElement = document.getElementById(errorElementId);
@@ -246,19 +280,13 @@
                     errElement.classList.remove('hidden');
                 }
 
-                // Normalise target inputs to an array
                 const targetIds = Array.isArray(inputElementIds) ? inputElementIds : [inputElementIds];
                 
                 targetIds.forEach(id => {
                     const inputEl = document.getElementById(id);
                     if (inputEl) {
-                        // Clear existing state to restart animation trigger loop smoothly
                         inputEl.classList.remove('animate-shake', 'border-rose-500', 'dark:border-rose-500');
-                        
-                        // Force a Dom reflow layout calculation to reset animation timeline cleanly
                         void inputEl.offsetWidth; 
-                        
-                        // Inject visual alert micro-interaction states
                         inputEl.classList.add('animate-shake', 'border-rose-500', 'dark:border-rose-500');
                     }
                 });
@@ -270,7 +298,6 @@
                     if (el) el.classList.add('hidden');
                 });
 
-                // Clear shake classes and warning borders from all inputs
                 ['height', 'weight', 'heightFt', 'heightIn', 'weightLbs'].forEach(id => {
                     const inputEl = document.getElementById(id);
                     if (inputEl) {
@@ -363,7 +390,6 @@
 
                 let pointerPct = ((finalBmi - 15) / (40 - 15)) * 100;
                 bmiPointer.style.left = `${Math.min(Math.max(pointerPct, 0), 100)}%`;
-                resultCard.classList.remove('hidden');
 
                 saveToHistory(finalBmi, category);
             };
@@ -432,8 +458,7 @@
             resetBtn.addEventListener('click', () => {
                 bmiForm.reset();
                 clearValidationErrors();
-                resultCard.classList.add('hidden');
-                bmiPointer.style.left = '0%';
+                resetResultToGreenBox();
             });
         });
     </script>
