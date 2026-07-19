@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <!-- FIXED: Pointed Favicon to your public folder asset -->
-    <link rel="icon" type="image/svg+xml" href="public/Logo.svg">
+    <!-- Favicon pointing exactly to your custom public asset folder -->
+    <link rel="icon" type="image/svg+xml" href="./public/Logo.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minimalist BMI Calculator</title>
     <!-- Tailwind CSS Engine -->
@@ -35,8 +35,8 @@
         </button>
 
         <header class="text-center mb-6">
-            <!-- FIXED: Pointed src directly to public/Logo.svg with dynamic dark-mode inversion filtering -->
-            <img src="public/Logo.svg" alt="App Logo" class="w-12 h-12 mx-auto mb-2 object-contain dark:invert">
+            <!-- FIXED: Optimized image size and tracking layout for your exact pulse scale logo -->
+            <img src="./public/Logo.svg" alt="App Logo" class="w-16 h-16 mx-auto mb-2 object-contain rounded-xl">
             <h1 class="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">BMI Calculator</h1>
             <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Calculate your Body Mass Index instantly</p>
         </header>
@@ -160,7 +160,7 @@
         </section>
     </main>
 
-    <!-- App Engine JavaScript -->
+    <!-- App Engine JavaScript Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             let currentUnit = 'metric';
