@@ -1,83 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // === ELEMENT SELECTORS ===
     const bmiForm = document.getElementById('bmiForm');
     const resetBtn = document.getElementById('resetBtn');
+
     const heightInput = document.getElementById('height');
     const weightInput = document.getElementById('weight');
+
     const heightError = document.getElementById('heightError');
     const weightError = document.getElementById('weightError');
+
     const resultCard = document.getElementById('resultCard');
     const bmiValueDisplay = document.getElementById('bmiValue');
     const bmiCategoryDisplay = document.getElementById('bmiCategory');
-    const bmiPointer = document.getElementById('bmiPointer');
 
-    // NEW: Dark Mode Selectors
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    const sunIcon = document.getElementById('sunIcon');
-    const moonIcon = document.getElementById('moonIcon');
+    // 1. The Reusable Error + Shake Micro-Interaction Function
+    const showError = (inputEl, errorEl, message) => {
+        errorEl.textContent = message;
+        errorEl.classList.remove('hidden');
 
-    // === NEW: DARK MODE SYSTEM INITIALIZATION ===
-    // Check local storage or system preference to default setup
-    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-        sunIcon.classList.remove('hidden');
-        moonIcon.classList.add('hidden');
-    } else {
-        document.documentElement.classList.remove('dark');
-        sunIcon.classList.add('hidden');
-        moonIcon.classList.remove('hidden');
-    }
+        // Add error colors and the shake modifier
+        inputEl.classList.add('border-rose-300', 'focus:ring-rose-500', 'animate-shake');
 
-    darkModeToggle.addEventListener('click', () => {
-        if (document.documentElement.classList.contains('dark')) {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
-            sunIcon.classList.add('hidden');
-            moonIcon.classList.remove('hidden');
-        } else {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
-            sunIcon.classList.remove('hidden');
-            moonIcon.classList.add('hidden');
-        }
-    });
-
-    // === VISUAL SCALE MATH ENGINE ===
-    const calculatePointerPercentage = (bmi) => {
-        let percentage = 0;
-        if (bmi < 18.5) {
-            percentage = ((bmi - 15) / (18.5 - 15)) * 25;
-        } else if (bmi >= 18.5 && bmi < 25) {
-            percentage = 25 + ((bmi - 18.5) / (25 - 18.5)) * 25;
-        } else if (bmi >= 25 && bmi < 30) {
-            percentage = 50 + ((bmi - 25) / (30 - 25)) * 25;
-        } else {
-            percentage = 75 + ((bmi - 30) / (40 - 30)) * 25;
-        }
-        return Math.max(0, Math.min(100, percentage));
+        // Strip the shake class right after it finishes so it can shake again next time
+        inputEl.addEventListener('animationend', () => {
+            inputEl.classList.remove('animate-shake');
+        }, { once: true });
     };
 
-    // === INPUT VALIDATION ENGINE ===
+    // 2. Defensive Rule Input Validator
     const validateInputs = (height, weight) => {
         let isValid = true;
+
+        // Reset state classes
         heightError.classList.add('hidden');
         weightError.classList.add('hidden');
         heightInput.classList.remove('border-rose-300', 'focus:ring-rose-500');
         weightInput.classList.remove('border-rose-300', 'focus:ring-rose-500');
-        const showError = (inputEl, errorEl, message) => {
-    // 1. Pop out the error text message
-    errorEl.textContent = message;
-    errorEl.classList.remove('hidden');
-    
-    // 2. Turn the border red and inject the shake animation class
-    inputEl.classList.add('border-rose-300', 'focus:ring-rose-500', 'animate-shake');
-    
-    // 3. Clean up: Remove the shake class once the 0.3s animation ends 
-    // so it can be re-triggered if the user clicks "Calculate" again.
-    inputEl.addEventListener('animationend', () => {
-        inputEl.classList.remove('animate-shake');
-    }, { once: true }); // { once: true } ensures the listener cleans itself up
-};
 
         if (!height || isNaN(height)) {
             showError(heightInput, heightError, 'Height field cannot be left blank.');
@@ -94,18 +51,14 @@ document.addEventListener('DOMContentLoaded', () => {
             showError(weightInput, weightError, 'Please enter a realistic weight between 2 and 450 kg.');
             isValid = false;
         }
+
         return isValid;
     };
 
-    const showError = (inputEl, errorEl, message) => {
-        errorEl.textContent = message;
-        errorEl.classList.remove('hidden');
-        inputEl.classList.add('border-rose-300', 'focus:ring-rose-500');
-    };
-
-    // === FORM EVENT SUBMISSION LISTENER ===
+    // 3. Form Submission Interceptor
     bmiForm.addEventListener('submit', (e) => {
         e.preventDefault();
+
         const height = parseFloat(heightInput.value);
         const weight = parseFloat(weightInput.value);
 
@@ -116,10 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const heightInMeters = height / 100;
         const bmi = weight / (heightInMeters * heightInMeters);
+
         displayResult(bmi);
     });
 
-    // === DISPLAY GENERATION & UI INJECTIONS ===
+    // 4. Dynamic Style Engine
     const displayResult = (bmi) => {
         let category = '';
         let themeClass = '';
@@ -143,21 +97,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         bmiValueDisplay.textContent = bmi.toFixed(2);
         bmiCategoryDisplay.textContent = category;
-        
-        const pointerPercentage = calculatePointerPercentage(bmi);
-        bmiPointer.style.left = `${pointerPercentage}%`;
-        
+
         resultCard.classList.remove('hidden');
     };
 
-    // === STATE RESET ROUTINE ===
+    // 5. App State Master Reset
     resetBtn.addEventListener('click', () => {
         bmiForm.reset();
         heightError.classList.add('hidden');
         weightError.classList.add('hidden');
         heightInput.classList.remove('border-rose-300', 'focus:ring-rose-500');
         weightInput.classList.remove('border-rose-300', 'focus:ring-rose-500');
-        bmiPointer.style.left = '0%';
         resultCard.classList.add('hidden');
     });
 });
