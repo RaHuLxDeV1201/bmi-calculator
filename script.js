@@ -10,65 +10,64 @@ document.addEventListener('DOMContentLoaded', () => {
     const bmiValueDisplay = document.getElementById('bmiValue');
     const bmiCategoryDisplay = document.getElementById('bmiCategory');
     
-    // Advanced UI Hooks (From your HTML structural additions)
+    // Advanced UI Hooks
     const bmiPointer = document.getElementById('bmiPointer');
     const darkModeToggle = document.getElementById('darkModeToggle');
     const moonIcon = document.getElementById('moonIcon');
     const sunIcon = document.getElementById('sunIcon');
 
-   
     /* ==========================================================================
-   1. BULLETPROOF DARK MODE TOGGLE ENGINE
-   ========================================================================== */
-let isDark = false;
+       1. BULLETPROOF DARK MODE TOGGLE ENGINE
+       ========================================================================== */
+    let isDark = false;
 
-// Safe wrapper: If the browser blocks localStorage locally, fallback gracefully
-try {
-    isDark = localStorage.getItem('theme') === 'dark' || 
-             (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
-} catch (error) {
-    // If localStorage fails, use the user's system device preferences instead
-    isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-}
+    // Safe wrapper: If the browser blocks localStorage locally, fallback gracefully
+    try {
+        isDark = localStorage.getItem('theme') === 'dark' || 
+                 (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    } catch (error) {
+        // If localStorage fails, use the user's system device preferences instead
+        isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
 
-// Initial theme application
-if (isDark) {
-    document.documentElement.classList.add('dark');
-    moonIcon.classList.add('hidden');
-    sunIcon.classList.remove('hidden');
-} else {
-    document.documentElement.classList.remove('dark');
-    moonIcon.classList.remove('hidden');
-    sunIcon.classList.add('hidden');
-}
-
-// Click Event Listener
-darkModeToggle.addEventListener('click', () => {
-    // .toggle() automatically adds the class if missing, or removes it if present
-    const isNowDark = document.documentElement.classList.toggle('dark');
-    
-    if (isNowDark) {
+    // Initial theme application
+    if (isDark) {
+        document.documentElement.classList.add('dark');
         moonIcon.classList.add('hidden');
         sunIcon.classList.remove('hidden');
-        try { localStorage.setItem('theme', 'dark'); } catch (e) {}
     } else {
+        document.documentElement.classList.remove('dark');
         moonIcon.classList.remove('hidden');
         sunIcon.classList.add('hidden');
-        try { localStorage.setItem('theme', 'light'); } catch (e) {}
     }
-});
+
+    // Click Event Listener
+    darkModeToggle.addEventListener('click', () => {
+        // .toggle() automatically adds the class if missing, or removes it if present
+        const isNowDark = document.documentElement.classList.toggle('dark');
+        
+        if (isNowDark) {
+            moonIcon.classList.add('hidden');
+            sunIcon.classList.remove('hidden');
+            try { localStorage.setItem('theme', 'dark'); } catch (e) {}
+        } else {
+            moonIcon.classList.remove('hidden');
+            sunIcon.classList.add('hidden');
+            try { localStorage.setItem('theme', 'light'); } catch (e) {}
+        }
+    });
+
     /* ==========================================================================
-       2. REUSABLE ERROR + SHAKE SYSTEM (FIXED)
+       2. REUSABLE ERROR + SHAKE SYSTEM
        ========================================================================== */
     const showError = (inputEl, errorEl, message) => {
         errorEl.textContent = message;
         errorEl.classList.remove('hidden');
 
-        // FIXED: Clear out any existing animation classes first
+        // Clear out any existing animation classes first
         inputEl.classList.remove('animate-shake');
         
-        // FIXED: Force a DOM reflow calculation. 
-        // This line tricks the browser into resetting the animation state completely.
+        // Force a DOM reflow calculation to reset the animation state completely
         void inputEl.offsetWidth; 
 
         // Apply error borders and trigger the fresh shake animation
@@ -159,8 +158,7 @@ darkModeToggle.addEventListener('click', () => {
         bmiValueDisplay.textContent = bmi.toFixed(2);
         bmiCategoryDisplay.textContent = category;
 
-        // NEW: Calculate the horizontal placement percentage for your slider bar.
-        // Maps the BMI scale logically onto a 0% to 100% slider width container.
+        // Calculate the horizontal placement percentage for your slider bar.
         let sliderPercentage = ((bmi - 15) / (40 - 15)) * 100;
         
         // Clamp bounds to prevent the dot pointer from jumping off the layout edge
