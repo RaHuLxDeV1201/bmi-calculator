@@ -90,3 +90,14 @@ input[type=number] {
   border: 1px solid #991b1b !important;
   color: #f87171 !important;
 }
+/* Shake Animation Keyframes */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+/* Class to trigger the micro-interaction */
+.animate-shake {
+  animation: shake 0.3s ease-in-out;
+}

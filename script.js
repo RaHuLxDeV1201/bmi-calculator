@@ -64,6 +64,20 @@ document.addEventListener('DOMContentLoaded', () => {
         weightError.classList.add('hidden');
         heightInput.classList.remove('border-rose-300', 'focus:ring-rose-500');
         weightInput.classList.remove('border-rose-300', 'focus:ring-rose-500');
+        const showError = (inputEl, errorEl, message) => {
+    // 1. Pop out the error text message
+    errorEl.textContent = message;
+    errorEl.classList.remove('hidden');
+    
+    // 2. Turn the border red and inject the shake animation class
+    inputEl.classList.add('border-rose-300', 'focus:ring-rose-500', 'animate-shake');
+    
+    // 3. Clean up: Remove the shake class once the 0.3s animation ends 
+    // so it can be re-triggered if the user clicks "Calculate" again.
+    inputEl.addEventListener('animationend', () => {
+        inputEl.classList.remove('animate-shake');
+    }, { once: true }); // { once: true } ensures the listener cleans itself up
+};
 
         if (!height || isNaN(height)) {
             showError(heightInput, heightError, 'Height field cannot be left blank.');
