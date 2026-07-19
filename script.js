@@ -184,3 +184,19 @@ document.addEventListener('DOMContentLoaded', () => {
         bmiPointer.style.left = '0%'; // Reset the visual dot pointer
     });
 });
+
+
+// Clear error visual wrappers dynamically as the user types
+[heightInput, weightInput, heightFtInput, heightInInput, weightLbsInput].forEach(input => {
+    input.addEventListener('input', () => {
+        input.classList.remove('border-rose-300', 'focus:ring-rose-500', 'animate-shake');
+        // Hide the respective text block if it exists
+        if (input === heightInput || input === weightInput) {
+            heightError.classList.add('hidden');
+            weightError.classList.add('hidden');
+        } else {
+            imperialHeightError.classList.add('hidden');
+            weightLbsError.classList.add('hidden');
+        }
+    });
+});
