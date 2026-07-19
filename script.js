@@ -16,21 +16,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const moonIcon = document.getElementById('moonIcon');
     const sunIcon = document.getElementById('sunIcon');
 
+    // Imperial UI Hooks (Safely added to prevent reference errors)
+    const heightFtInput = document.getElementById('heightFt');
+    const heightInInput = document.getElementById('heightIn');
+    const weightLbsInput = document.getElementById('weightLbs');
+    const imperialHeightError = document.getElementById('imperialHeightError');
+    const weightLbsError = document.getElementById('weightLbsError');
+
     /* ==========================================================================
        1. BULLETPROOF DARK MODE TOGGLE ENGINE
        ========================================================================== */
     let isDark = false;
 
-    // Safe wrapper: If the browser blocks localStorage locally, fallback gracefully
     try {
         isDark = localStorage.getItem('theme') === 'dark' ||
             (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
     } catch (error) {
-        // If localStorage fails, use the user's system device preferences instead
         isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
 
-    // Initial theme application
     if (isDark) {
         document.documentElement.classList.add('dark');
         moonIcon.classList.add('hidden');
@@ -41,9 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sunIcon.classList.add('hidden');
     }
 
-    // Click Event Listener
     darkModeToggle.addEventListener('click', () => {
-        // .toggle() automatically adds the class if missing, or removes it if present
         const isNowDark = document.documentElement.classList.toggle('dark');
 
         if (isNowDark) {
@@ -64,16 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
         errorEl.textContent = message;
         errorEl.classList.remove('hidden');
 
-        // Clear out any existing animation classes first
         inputEl.classList.remove('animate-shake');
+        void inputEl.offsetWidth; // Force a DOM reflow calculation
 
-        // Force a DOM reflow calculation to reset the animation state completely
-        void inputEl.offsetWidth;
-
-        // Apply error borders and trigger the fresh shake animation
         inputEl.classList.add('border-rose-300', 'focus:ring-rose-500', 'animate-shake');
 
-        // Strip the animation class when done so it clears cleanly
         inputEl.addEventListener('animationend', () => {
             inputEl.classList.remove('animate-shake');
         }, { once: true });
@@ -151,23 +148,18 @@ document.addEventListener('DOMContentLoaded', () => {
             themeClass = 'theme-obese';
         }
 
-        // Flush out styling templates to avoid theme coloring conflicts
         resultCard.className = 'mt-8 p-5 rounded-xl text-center animate-result';
         resultCard.classList.add(themeClass);
 
         bmiValueDisplay.textContent = bmi.toFixed(2);
         bmiCategoryDisplay.textContent = category;
 
-        // Calculate the horizontal placement percentage for your slider bar.
         let sliderPercentage = ((bmi - 15) / (40 - 15)) * 100;
 
-        // Clamp bounds to prevent the dot pointer from jumping off the layout edge
         if (sliderPercentage < 0) sliderPercentage = 0;
         if (sliderPercentage > 100) sliderPercentage = 100;
 
-        // Move the visual gauge pointer smoothly
         bmiPointer.style.left = `${sliderPercentage}%`;
-
         resultCard.classList.remove('hidden');
     };
 
@@ -178,41 +170,34 @@ document.addEventListener('DOMContentLoaded', () => {
         bmiForm.reset();
         heightError.classList.add('hidden');
         weightError.classList.add('hidden');
+        if (imperialHeightError) imperialHeightError.classList.add('hidden');
+        if (weightLbsError) weightLbsError.classList.add('hidden');
+        
         heightInput.classList.remove('border-rose-300', 'focus:ring-rose-500', 'animate-shake');
         weightInput.classList.remove('border-rose-300', 'focus:ring-rose-500', 'animate-shake');
         resultCard.classList.add('hidden');
-        bmiPointer.style.left = '0%'; // Reset the visual dot pointer
+        bmiPointer.style.left = '0%';
     });
-});
 
+    /* ==========================================================================
+       7. REAL-TIME ERROR CLEANUP ENGINE
+       ========================================================================== */
+    // .filter(Boolean) ensures the script won't crash if Imperial inputs aren't active in the HTML yet
+    const inputFields = [heightInput, weightInput, heightFtInput, heightInInput, weightLbsInput].filter(Boolean);
 
-// Clear error visual wrappers dynamically as the user types
-[heightInput, weightInput, heightFtInput, heightInInput, weightLbsInput].forEach(input => {
-    input.addEventListener('input', () => {
-        input.classList.remove('border-rose-300', 'focus:ring-rose-500', 'animate-shake');
-        // Hide the respective text block if it exists
-        if (input === heightInput || input === weightInput) {
-            heightError.classList.add('hidden');
-            weightError.classList.add('hidden');
-        } else {
-            imperialHeightError.classList.add('hidden');
-            weightLbsError.classList.add('hidden');
-        }
-    });
-    // Clear error visual styles instantly when the user modifies or clears the text fields
-    [heightInput, weightInput, heightFtInput, heightInInput, weightLbsInput].forEach(input => {
+    inputFields.forEach(input => {
         input.addEventListener('input', () => {
-            // Strip away the red error borders and focus rings
+            // Strip red lines instantly when typing or clearing text
             input.classList.remove('border-rose-300', 'focus:ring-rose-500', 'animate-shake');
 
-            // Hide the respective error message text element
-            if (input === heightInput) {
+            // Safely hide corresponding text blocks if they exist in DOM
+            if (input === heightInput && heightError) {
                 heightError.classList.add('hidden');
-            } else if (input === weightInput) {
+            } else if (input === weightInput && weightError) {
                 weightError.classList.add('hidden');
-            } else if (input === heightFtInput || input === heightInInput) {
+            } else if ((input === heightFtInput || input === heightInInput) && imperialHeightError) {
                 imperialHeightError.classList.add('hidden');
-            } else if (input === weightLbsInput) {
+            } else if (input === weightLbsInput && weightLbsError) {
                 weightLbsError.classList.add('hidden');
             }
         });
