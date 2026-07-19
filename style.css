@@ -1,4 +1,7 @@
-/* Custom Input Spinner Removals */
+/* ==========================================================================
+   1. INPUT FIELD CLEANUP
+   ========================================================================== */
+/* Strip away native browser up/down arrow clickers on number input boxes */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -9,13 +12,14 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-/* Animations for Smooth Micro-interactions */
+/* ==========================================================================
+   2. TRANSITIONS & ANIMATION ENGINES
+   ========================================================================== */
 @keyframes slideUpFade {
   from {
     opacity: 0;
     transform: translateY(12px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -26,53 +30,61 @@ input[type=number] {
   animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Color Themes Map for JavaScript Injections */
+/* Fixes layering issues so buttons remain clickable and visible above background states */
+#darkModeToggle {
+  z-index: 50 !important;
+}
+
+/* ==========================================================================
+   3. LIGHT MODE GRAPHICS (COLOR MAPS)
+   ========================================================================== */
 .theme-underweight {
-  background-color: #f0fdfa;
-  border: 1px solid #ccfbf1;
-  color: #0f766e;
+  background-color: #f0fdfa !important;
+  border: 1px solid #ccfbf1 !important;
+  color: #0f766e !important;
 }
 
 .theme-normal {
-  background-color: #f0fdf4;
-  border: 1px solid #dcfce7;
-  color: #166534;
+  background-color: #f0fdf4 !important;
+  border: 1px solid #dcfce7 !important;
+  color: #166534 !important;
 }
 
 .theme-overweight {
-  background-color: #fffbeb;
-  border: 1px solid #fef3c7;
-  color: #b45309;
+  background-color: #fffbeb !important;
+  border: 1px solid #fef3c7 !important;
+  color: #b45309 !important;
 }
 
 .theme-obese {
-  background-color: #fef2f2;
-  border: 1px solid #fee2e2;
-  color: #b91c1c;
+  background-color: #fef2f2 !important;
+  border: 1px solid #fee2e2 !important;
+  color: #b91c1c !important;
 }
-/* --- Append to your existing style.css --- */
 
-/* Dark Mode Color Theme Overrides for the Result Card */
+/* ==========================================================================
+   4. DARK MODE STRUCTURAL OVERRIDES
+   ========================================================================== */
 .dark .theme-underweight {
-  background-color: rgba(12, 74, 110, 0.4);
-  border: 1px solid #075985;
-  color: #38bdf8;
+  background-color: rgba(12, 74, 110, 0.4) !important;
+  border: 1px solid #075985 !important;
+  color: #38bdf8 !important;
 }
 
 .dark .theme-normal {
-  background-color: rgba(6, 78, 59, 0.4);
-  border: 1px solid #065f46;
-  color: #34d399;
+  background-color: rgba(6, 78, 59, 0.4) !important;
+  border: 1px solid #065f46 !important;
+  color: #34d399 !important;
 }
 
 .dark .theme-overweight {
-  background-color: rgba(120, 53, 15, 0.4);
-  border: 1px solid #92400e;
-  color: #fbbf24;
+  background-color: rgba(120, 53, 15, 0.4) !important;
+  border: 1px solid #92400e !important;
+  color: #fbbf24 !important;
 }
 
 .dark .theme-obese {
-  background-color: rgba(127, 29, 29, 0.4);
-  border: 1px solid #991b1b;
-  color: #f87171;
+  background-color: rgba(127, 29, 29, 0.4) !important;
+  border: 1px solid #991b1b !important;
+  color: #f87171 !important;
 }
