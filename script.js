@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultCard = document.getElementById('resultCard');
     const bmiValueDisplay = document.getElementById('bmiValue');
     const bmiCategoryDisplay = document.getElementById('bmiCategory');
-    
+
     // Advanced UI Hooks
     const bmiPointer = document.getElementById('bmiPointer');
     const darkModeToggle = document.getElementById('darkModeToggle');
@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Safe wrapper: If the browser blocks localStorage locally, fallback gracefully
     try {
-        isDark = localStorage.getItem('theme') === 'dark' || 
-                 (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        isDark = localStorage.getItem('theme') === 'dark' ||
+            (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
     } catch (error) {
         // If localStorage fails, use the user's system device preferences instead
         isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -45,15 +45,15 @@ document.addEventListener('DOMContentLoaded', () => {
     darkModeToggle.addEventListener('click', () => {
         // .toggle() automatically adds the class if missing, or removes it if present
         const isNowDark = document.documentElement.classList.toggle('dark');
-        
+
         if (isNowDark) {
             moonIcon.classList.add('hidden');
             sunIcon.classList.remove('hidden');
-            try { localStorage.setItem('theme', 'dark'); } catch (e) {}
+            try { localStorage.setItem('theme', 'dark'); } catch (e) { }
         } else {
             moonIcon.classList.remove('hidden');
             sunIcon.classList.add('hidden');
-            try { localStorage.setItem('theme', 'light'); } catch (e) {}
+            try { localStorage.setItem('theme', 'light'); } catch (e) { }
         }
     });
 
@@ -66,9 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Clear out any existing animation classes first
         inputEl.classList.remove('animate-shake');
-        
+
         // Force a DOM reflow calculation to reset the animation state completely
-        void inputEl.offsetWidth; 
+        void inputEl.offsetWidth;
 
         // Apply error borders and trigger the fresh shake animation
         inputEl.classList.add('border-rose-300', 'focus:ring-rose-500', 'animate-shake');
@@ -160,11 +160,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Calculate the horizontal placement percentage for your slider bar.
         let sliderPercentage = ((bmi - 15) / (40 - 15)) * 100;
-        
+
         // Clamp bounds to prevent the dot pointer from jumping off the layout edge
         if (sliderPercentage < 0) sliderPercentage = 0;
         if (sliderPercentage > 100) sliderPercentage = 100;
-        
+
         // Move the visual gauge pointer smoothly
         bmiPointer.style.left = `${sliderPercentage}%`;
 
@@ -198,5 +198,23 @@ document.addEventListener('DOMContentLoaded', () => {
             imperialHeightError.classList.add('hidden');
             weightLbsError.classList.add('hidden');
         }
+    });
+    // Clear error visual styles instantly when the user modifies or clears the text fields
+    [heightInput, weightInput, heightFtInput, heightInInput, weightLbsInput].forEach(input => {
+        input.addEventListener('input', () => {
+            // Strip away the red error borders and focus rings
+            input.classList.remove('border-rose-300', 'focus:ring-rose-500', 'animate-shake');
+
+            // Hide the respective error message text element
+            if (input === heightInput) {
+                heightError.classList.add('hidden');
+            } else if (input === weightInput) {
+                weightError.classList.add('hidden');
+            } else if (input === heightFtInput || input === heightInInput) {
+                imperialHeightError.classList.add('hidden');
+            } else if (input === weightLbsInput) {
+                weightLbsError.classList.add('hidden');
+            }
+        });
     });
 });
