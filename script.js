@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // === 1. ELEMENT SELECTORS ===
     const bmiForm = document.getElementById('bmiForm');
     const resetBtn = document.getElementById('resetBtn');
     
@@ -11,8 +12,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultCard = document.getElementById('resultCard');
     const bmiValueDisplay = document.getElementById('bmiValue');
     const bmiCategoryDisplay = document.getElementById('bmiCategory');
+    
+    // NEW: Visual scale pointer selector linked to your HTML
+    const bmiPointer = document.getElementById('bmiPointer');
 
-    // Input Validation Blueprint
+
+    // === 2. VISUAL SCALE MATH ENGINE ===
+    // Maps the calculated BMI value to a precise 0% - 100% horizontal position
+    const calculatePointerPercentage = (bmi) => {
+        let percentage = 0;
+
+        if (bmi < 18.5) {
+            // Map linearly between BMI 15 and 18.5 into the 0% - 25% quadrant
+            percentage = ((bmi - 15) / (18.5 - 15)) * 25;
+        } else if (bmi >= 18.5 && bmi < 25) {
+            // Map linearly between BMI 18.5 and 25 into the 25% - 50% quadrant
+            percentage = 25 + ((bmi - 18.5) / (25 - 18.5)) * 25;
+        } else if (bmi >= 25 && bmi < 30) {
+            // Map linearly between BMI 25 and 30 into the 50% - 75% quadrant
+            percentage = 50 + ((bmi - 25) / (30 - 25)) * 25;
+        } else {
+            // Map linearly between BMI 30 and 40 into the 75% - 100% quadrant
+            percentage = 75 + ((bmi - 30) / (40 - 30)) * 25;
+        }
+
+        // Defensive clamping to keep the indicator dot from sliding off the slider graphic
+        return Math.max(0, Math.min(100, percentage));
+    };
+
+
+    // === 3. INPUT VALIDATION ENGINE ===
     const validateInputs = (height, weight) => {
         let isValid = true;
 
@@ -22,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         heightInput.classList.remove('border-rose-300', 'focus:ring-rose-500');
         weightInput.classList.remove('border-rose-300', 'focus:ring-rose-500');
 
-        // Validate Height Bounds (Realistic range: 50cm to 260cm)
+        // Validate Height Bounds
         if (!height || isNaN(height)) {
             showError(heightInput, heightError, 'Height field cannot be left blank.');
             isValid = false;
@@ -31,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             isValid = false;
         }
 
-        // Validate Weight Bounds (Realistic range: 2kg to 450kg)
+        // Validate Weight Bounds
         if (!weight || isNaN(weight)) {
             showError(weightInput, weightError, 'Weight field cannot be left blank.');
             isValid = false;
@@ -49,7 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
         inputEl.classList.add('border-rose-300', 'focus:ring-rose-500');
     };
 
-    // Calculate Actions
+
+    // === 4. FORM EVENT SUBMISSION LISTENERS ===
     bmiForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -61,14 +91,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Formula Implementation: weight (kg) / height (m)^2
+        // Standard metric calculation
         const heightInMeters = height / 100;
         const bmi = weight / (heightInMeters * heightInMeters);
         
         displayResult(bmi);
     });
 
-    // Strategy Pattern for Category Separation & UI Theme Mapping
+
+    // === 5. DISPLAY GENERATION & UI INJECTIONS ===
     const displayResult = (bmi) => {
         let category = '';
         let themeClass = '';
@@ -95,10 +126,15 @@ document.addEventListener('DOMContentLoaded', () => {
         bmiValueDisplay.textContent = bmi.toFixed(2);
         bmiCategoryDisplay.textContent = category;
         
+        // NEW: Calculate percentage and smoothly slide the pointer dot using standard CSS positioning
+        const pointerPercentage = calculatePointerPercentage(bmi);
+        bmiPointer.style.left = `${pointerPercentage}%`;
+        
         resultCard.classList.remove('hidden');
     };
 
-    // Clear State Routine
+
+    // === 6. STATE RESET ROUTINE ===
     resetBtn.addEventListener('click', () => {
         bmiForm.reset();
         
@@ -107,6 +143,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         heightInput.classList.remove('border-rose-300', 'focus:ring-rose-500');
         weightInput.classList.remove('border-rose-300', 'focus:ring-rose-500');
+        
+        // NEW: Instantly snap the indicator needle back to the far left position
+        bmiPointer.style.left = '0%';
         
         resultCard.classList.add('hidden');
     });

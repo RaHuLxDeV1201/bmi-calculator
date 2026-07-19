@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +9,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body class="bg-slate-50 min-h-screen flex items-center justify-center p-4">
 
-    <main class="bg-white w-full max-w-md rounded-2xl shadow-xl border border-slate-100 p-6 sm:p-8 transition-all duration-300">
+    <main
+        class="bg-white w-full max-w-md rounded-2xl shadow-xl border border-slate-100 p-6 sm:p-8 transition-all duration-300">
         <!-- Header -->
         <header class="text-center mb-8">
             <h1 class="text-2xl font-bold text-slate-800 tracking-tight">BMI Calculator</h1>
@@ -22,7 +25,7 @@
             <!-- Height Input -->
             <div>
                 <label for="height" class="block text-sm font-semibold text-slate-700 mb-2">Height (cm)</label>
-                <input type="number" id="height" placeholder="e.g., 175" 
+                <input type="number" id="height" placeholder="e.g., 175"
                     class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all placeholder-slate-400 text-slate-800 font-medium">
                 <p id="heightError" class="text-xs text-rose-500 font-medium mt-1.5 hidden"></p>
             </div>
@@ -30,18 +33,18 @@
             <!-- Weight Input -->
             <div>
                 <label for="weight" class="block text-sm font-semibold text-slate-700 mb-2">Weight (kg)</label>
-                <input type="number" id="weight" placeholder="e.g., 70" 
+                <input type="number" id="weight" placeholder="e.g., 70"
                     class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all placeholder-slate-400 text-slate-800 font-medium">
                 <p id="weightError" class="text-xs text-rose-500 font-medium mt-1.5 hidden"></p>
             </div>
 
             <!-- Action Controls -->
             <div class="flex flex-col sm:flex-row gap-3 pt-2">
-                <button type="submit" 
+                <button type="submit"
                     class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
                     Calculate BMI
                 </button>
-                <button type="button" id="resetBtn" 
+                <button type="button" id="resetBtn"
                     class="bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold py-3 px-6 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-300">
                     Reset
                 </button>
@@ -53,9 +56,37 @@
             <h2 class="text-xs uppercase tracking-wider font-bold opacity-75">Your Score</h2>
             <div id="bmiValue" class="text-4xl font-black my-1">--.--</div>
             <p id="bmiCategory" class="text-base font-bold"></p>
+
+            <!-- 👇 ADD THE NEW SCALE CODE HERE 👇 -->
+            <div class="mt-6 relative pt-4">
+                <!-- The Color Track Bar -->
+                <div class="h-3 w-full rounded-full flex overflow-hidden bg-slate-100">
+                    <div class="w-1/4 bg-sky-400" title="Underweight"></div>
+                    <div class="w-1/4 bg-emerald-500" title="Normal"></div>
+                    <div class="w-1/4 bg-amber-500" title="Overweight"></div>
+                    <div class="w-1/4 bg-rose-500" title="Obese"></div>
+                </div>
+
+                <!-- Dynamic Sliding Indicator Dot -->
+                <div id="bmiPointer"
+                    class="absolute top-2.5 -ml-2 w-4 h-4 bg-slate-800 border-2 border-white rounded-full shadow-md transition-all duration-500 ease-out"
+                    style="left: 0%;"></div>
+
+                <!-- Scale Label Markers -->
+                <div class="flex justify-between text-[10px] font-bold text-slate-400 mt-1.5 px-1">
+                    <span>15</span>
+                    <span>18.5</span>
+                    <span>25</span>
+                    <span>30</span>
+                    <span>40+</span>
+                </div>
+            </div>
+
+
         </section>
     </main>
 
     <script src="script.js"></script>
 </body>
+
 </html>
