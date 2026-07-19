@@ -16,6 +16,16 @@
     </script>
     <style>
         .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 200ms; }
+        
+        /* Error Shake Micro-Interaction */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        .animate-shake {
+            animation: shake 0.3s ease-in-out;
+        }
     </style>
 </head>
 
@@ -35,7 +45,7 @@
         </button>
 
         <header class="text-center mb-6">
-            <!-- FIXED: Optimized image size and tracking layout for your exact pulse scale logo -->
+            <!-- Optimized image size and tracking layout for your exact pulse scale logo -->
             <img src="./public/Logo.svg" alt="App Logo" class="w-16 h-16 mx-auto mb-2 object-contain rounded-xl">
             <h1 class="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">BMI Calculator</h1>
             <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Calculate your Body Mass Index instantly</p>
@@ -228,18 +238,44 @@
             metricToggleBtn.addEventListener('click', () => setUnitSystem('metric'));
             imperialToggleBtn.addEventListener('click', () => setUnitSystem('imperial'));
 
-            const showError = (elementId, message) => {
-                const errElement = document.getElementById(elementId);
+            // Optimized ShowError with Shake & Border Alert Micro-Interactions
+            const showError = (errorElementId, inputElementIds, message) => {
+                const errElement = document.getElementById(errorElementId);
                 if (errElement) {
                     errElement.innerText = message;
                     errElement.classList.remove('hidden');
                 }
+
+                // Normalise target inputs to an array
+                const targetIds = Array.isArray(inputElementIds) ? inputElementIds : [inputElementIds];
+                
+                targetIds.forEach(id => {
+                    const inputEl = document.getElementById(id);
+                    if (inputEl) {
+                        // Clear existing state to restart animation trigger loop smoothly
+                        inputEl.classList.remove('animate-shake', 'border-rose-500', 'dark:border-rose-500');
+                        
+                        // Force a Dom reflow layout calculation to reset animation timeline cleanly
+                        void inputEl.offsetWidth; 
+                        
+                        // Inject visual alert micro-interaction states
+                        inputEl.classList.add('animate-shake', 'border-rose-500', 'dark:border-rose-500');
+                    }
+                });
             };
 
             const clearValidationErrors = () => {
                 ['heightError', 'weightError', 'imperialHeightError', 'weightLbsError'].forEach(id => {
                     const el = document.getElementById(id);
                     if (el) el.classList.add('hidden');
+                });
+
+                // Clear shake classes and warning borders from all inputs
+                ['height', 'weight', 'heightFt', 'heightIn', 'weightLbs'].forEach(id => {
+                    const inputEl = document.getElementById(id);
+                    if (inputEl) {
+                        inputEl.classList.remove('animate-shake', 'border-rose-500', 'dark:border-rose-500');
+                    }
                 });
             };
 
@@ -255,11 +291,11 @@
                     const weightKg = parseFloat(document.getElementById('weight').value);
 
                     if (!heightCm || heightCm <= 0 || heightCm > 300) {
-                        showError('heightError', 'Please enter a valid height (1-300 cm).');
+                        showError('heightError', 'height', 'Please enter a valid height (1-300 cm).');
                         isValid = false;
                     }
                     if (!weightKg || weightKg <= 0 || weightKg > 600) {
-                        showError('weightError', 'Please enter a valid weight (1-600 kg).');
+                        showError('weightError', 'weight', 'Please enter a valid weight (1-600 kg).');
                         isValid = false;
                     }
                     if (isValid) {
@@ -272,11 +308,11 @@
                     const totalInches = (ft * 12) + inch;
 
                     if (totalInches <= 0 || totalInches > 120) {
-                        showError('imperialHeightError', 'Please enter a valid height layout.');
+                        showError('imperialHeightError', ['heightFt', 'heightIn'], 'Please enter a valid height layout.');
                         isValid = false;
                     }
                     if (!weightLbs || weightLbs <= 0 || weightLbs > 1300) {
-                        showError('weightLbsError', 'Please enter a valid weight.');
+                        showError('weightLbsError', 'weightLbs', 'Please enter a valid weight.');
                         isValid = false;
                     }
                     if (isValid) {
