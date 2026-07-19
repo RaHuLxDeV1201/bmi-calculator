@@ -69,14 +69,14 @@
                 <div>
                     <label for="height" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Height (cm)</label>
                     <input type="number" id="height" placeholder="e.g., 175"
-                        class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-slate-800 dark:text-white font-medium transition-all">
+                        class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 text-slate-800 dark:text-white font-medium transition-all">
                     <p id="heightError" class="text-xs text-rose-500 font-medium mt-1.5 hidden"></p>
                 </div>
 
                 <div>
                     <label for="weight" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Weight (kg)</label>
                     <input type="number" id="weight" placeholder="e.g., 70"
-                        class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-slate-800 dark:text-white font-medium transition-all">
+                        class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 text-slate-800 dark:text-white font-medium transition-all">
                     <p id="weightError" class="text-xs text-rose-500 font-medium mt-1.5 hidden"></p>
                 </div>
             </div>
@@ -88,11 +88,11 @@
                     <div class="flex gap-3">
                         <div class="flex-1">
                             <input type="number" id="heightFt" placeholder="Feet"
-                                class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-slate-800 dark:text-white font-medium transition-all">
+                                class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 text-slate-800 dark:text-white font-medium transition-all">
                         </div>
                         <div class="flex-1">
                             <input type="number" id="heightIn" placeholder="Inches"
-                                class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-slate-800 dark:text-white font-medium transition-all">
+                                class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 text-slate-800 dark:text-white font-medium transition-all">
                         </div>
                     </div>
                     <p id="imperialHeightError" class="text-xs text-rose-500 font-medium mt-1.5 hidden"></p>
@@ -101,7 +101,7 @@
                 <div>
                     <label for="weightLbs" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Weight (lbs)</label>
                     <input type="number" id="weightLbs" placeholder="e.g., 150"
-                        class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-slate-800 dark:text-white font-medium transition-all">
+                        class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 text-slate-800 dark:text-white font-medium transition-all">
                     <p id="weightLbsError" class="text-xs text-rose-500 font-medium mt-1.5 hidden"></p>
                 </div>
             </div>
@@ -249,6 +249,23 @@
                 bmiPointer.style.left = '0%';
             };
 
+            // Dynamic Styling Framework - guarantees 100% color separation (No mix of colors)
+            const applyInputStyle = (inputEl, state) => {
+                inputEl.classList.remove(
+                    'border-slate-200', 'dark:border-slate-600',
+                    'border-emerald-500', 'dark:border-emerald-500', 'focus:border-emerald-500', 'focus:ring-emerald-500',
+                    'border-rose-500', 'dark:border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-500'
+                );
+
+                if (state === 'invalid') {
+                    inputEl.classList.add('border-rose-500', 'dark:border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-500');
+                } else if (state === 'valid') {
+                    inputEl.classList.add('border-emerald-500', 'dark:border-emerald-500', 'focus:border-emerald-500', 'focus:ring-emerald-500');
+                } else {
+                    inputEl.classList.add('border-slate-200', 'dark:border-slate-600', 'focus:border-emerald-500', 'focus:ring-emerald-500');
+                }
+            };
+
             // Monitors and updates UI when fields are completely empty
             const checkAndHandleEmptyData = () => {
                 const height = document.getElementById('height').value;
@@ -264,32 +281,109 @@
                 }
             };
 
-            // Realtime monitor handles validation states precisely as you modify data
-            ['height', 'weight', 'heightFt', 'heightIn', 'weightLbs'].forEach(id => {
-                const inputEl = document.getElementById(id);
-                inputEl.addEventListener('input', () => {
-                    // FIXED Logic: Only clear the red error border if the data has been completely deleted (empty)
-                    if (inputEl.value.trim() === '') {
-                        inputEl.classList.remove('animate-shake', 'border-rose-500', 'dark:border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-500');
-                        
-                        // Clean up text boxes selectively
-                        if (id === 'height') document.getElementById('heightError').classList.add('hidden');
-                        if (id === 'weight') document.getElementById('weightError').classList.add('hidden');
-                        if (id === 'weightLbs') document.getElementById('weightLbsError').classList.add('hidden');
-                        if (id === 'heightFt' || id === 'heightIn') {
-                            const ftVal = document.getElementById('heightFt').value.trim();
-                            const inVal = document.getElementById('heightIn').value.trim();
-                            // Hide text block only if both parts of imperial height are deleted
-                            if (ftVal === '' && inVal === '') {
-                                document.getElementById('imperialHeightError').classList.add('hidden');
-                            }
-                        }
+            // Realtime monitor evaluates user numbers and forces precise coloration context
+            document.getElementById('height').addEventListener('input', function() {
+                const val = this.value.trim();
+                if (val === '') {
+                    applyInputStyle(this, 'default');
+                    document.getElementById('heightError').classList.add('hidden');
+                } else {
+                    const num = parseFloat(val);
+                    if (num > 0 && num <= 300) {
+                        applyInputStyle(this, 'valid');
+                        document.getElementById('heightError').classList.add('hidden');
+                    } else {
+                        applyInputStyle(this, 'invalid');
+                        document.getElementById('heightError').innerText = 'Please enter a valid height (1-300 cm).';
+                        document.getElementById('heightError').classList.remove('hidden');
                     }
-                    checkAndHandleEmptyData();
-                });
+                }
+                checkAndHandleEmptyData();
             });
 
-            // Optimized ShowError with clean full-red overrides (prevents red/green mix layout glitches)
+            document.getElementById('weight').addEventListener('input', function() {
+                const val = this.value.trim();
+                if (val === '') {
+                    applyInputStyle(this, 'default');
+                    document.getElementById('weightError').classList.add('hidden');
+                } else {
+                    const num = parseFloat(val);
+                    if (num > 0 && num <= 600) {
+                        applyInputStyle(this, 'valid');
+                        document.getElementById('weightError').classList.add('hidden');
+                    } else {
+                        applyInputStyle(this, 'invalid');
+                        document.getElementById('weightError').innerText = 'Please enter a valid weight (1-600 kg).';
+                        document.getElementById('weightError').classList.remove('hidden');
+                    }
+                }
+                checkAndHandleEmptyData();
+            });
+
+            document.getElementById('weightLbs').addEventListener('input', function() {
+                const val = this.value.trim();
+                if (val === '') {
+                    applyInputStyle(this, 'default');
+                    document.getElementById('weightLbsError').classList.add('hidden');
+                } else {
+                    const num = parseFloat(val);
+                    if (num > 0 && num <= 1300) {
+                        applyInputStyle(this, 'valid');
+                        document.getElementById('weightLbsError').classList.add('hidden');
+                    } else {
+                        applyInputStyle(this, 'invalid');
+                        document.getElementById('weightLbsError').innerText = 'Please enter a valid weight (1-1300 lbs).';
+                        document.getElementById('weightLbsError').classList.remove('hidden');
+                    }
+                }
+                checkAndHandleEmptyData();
+            });
+
+            const handleImperialHeightChange = () => {
+                const ftEl = document.getElementById('heightFt');
+                const inEl = document.getElementById('heightIn');
+                const errorEl = document.getElementById('imperialHeightError');
+                
+                const ftVal = ftEl.value.trim();
+                const inVal = inEl.value.trim();
+                
+                if (ftVal === '' && inVal === '') {
+                    applyInputStyle(ftEl, 'default');
+                    applyInputStyle(inEl, 'default');
+                    errorEl.classList.add('hidden');
+                } else {
+                    const ft = parseFloat(ftVal) || 0;
+                    const inch = parseFloat(inVal) || 0;
+                    const totalInches = (ft * 12) + inch;
+                    
+                    if (totalInches > 0 && totalInches <= 120 && ft >= 0 && inch >= 0) {
+                        applyInputStyle(ftEl, 'valid');
+                        applyInputStyle(inEl, 'valid');
+                        errorEl.classList.add('hidden');
+                    } else {
+                        applyInputStyle(ftEl, (ftVal !== '' && (ft < 0 || totalInches > 120 || totalInches <= 0)) ? 'invalid' : 'default');
+                        applyInputStyle(inEl, (inVal !== '' && (inch < 0 || totalInches > 120 || totalInches <= 0)) ? 'invalid' : 'default');
+                        
+                        if (totalInches <= 0 || totalInches > 120 || ft < 0 || inch < 0) {
+                            if (ftVal !== '') applyInputStyle(ftEl, 'invalid');
+                            if (inVal !== '') applyInputStyle(inEl, 'invalid');
+                            errorEl.innerText = 'Please enter a valid height layout.';
+                            errorEl.classList.remove('hidden');
+                        }
+                    }
+                }
+                checkAndHandleEmptyData();
+            };
+
+            document.getElementById('heightFt').addEventListener('input', handleImperialHeightChange);
+            document.getElementById('heightIn').addEventListener('input', handleImperialHeightChange);
+
+            // Setup Base Standard Form Styles upon setup initialization
+            ['height', 'weight', 'heightFt', 'heightIn', 'weightLbs'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) applyInputStyle(el, 'default');
+            });
+
             const showError = (errorElementId, inputElementIds, message) => {
                 const errElement = document.getElementById(errorElementId);
                 if (errElement) {
@@ -302,12 +396,10 @@
                 targetIds.forEach(id => {
                     const inputEl = document.getElementById(id);
                     if (inputEl) {
-                        // Clear regular attributes to restart state cleanly
-                        inputEl.classList.remove('animate-shake', 'border-rose-500', 'dark:border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-500');
+                        inputEl.classList.remove('animate-shake');
                         void inputEl.offsetWidth; 
-                        
-                        // Force full-red tracking ring style context until data gets entirely cleared
-                        inputEl.classList.add('animate-shake', 'border-rose-500', 'dark:border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-500');
+                        inputEl.classList.add('animate-shake');
+                        applyInputStyle(inputEl, 'invalid');
                     }
                 });
             };
@@ -321,7 +413,11 @@
                 ['height', 'weight', 'heightFt', 'heightIn', 'weightLbs'].forEach(id => {
                     const inputEl = document.getElementById(id);
                     if (inputEl) {
-                        inputEl.classList.remove('animate-shake', 'border-rose-500', 'dark:border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-500');
+                        inputEl.classList.remove('animate-shake');
+                        // Retain logic colors if value exists
+                        if (inputEl.value.trim() === '') {
+                            applyInputStyle(inputEl, 'default');
+                        }
                     }
                 });
             };
@@ -329,7 +425,6 @@
             // Calculate Logic
             bmiForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                clearValidationErrors();
                 let isValid = true;
                 let bmi = 0;
 
@@ -368,6 +463,7 @@
                 }
 
                 if (isValid) {
+                    clearValidationErrors();
                     displayBmiResult(bmi);
                 }
             });
@@ -477,6 +573,10 @@
 
             resetBtn.addEventListener('click', () => {
                 bmiForm.reset();
+                ['height', 'weight', 'heightFt', 'heightIn', 'weightLbs'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) applyInputStyle(el, 'default');
+                });
                 clearValidationErrors();
                 resetResultToGreenBox();
             });
