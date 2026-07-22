@@ -18,4 +18,4 @@ To deploy this project to your local runtime environment without any complex com
 
 1. **Clone down this repository:**
    ```bash
-   git clone [https:/RaHuLxDeV1201/github.com//bmi-calculator.git](https://github.com/RaHuLxDeV1201/bmi-calculator.git)
+   git clone https://github.com/RaHuLxDeV1201/bmi-calculator.git
