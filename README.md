@@ -1,3 +1,5 @@
+[![Live Demo](https://img.shields.io/badge/Live_Demo-View_Here-blue?style=for-the-badge)](https://rahulxdev1201.github.io/bmi-calculator/)
+
 # Minimalist & Responsive BMI Calculator
 
 A clean, responsive, and performance-minded front-end application built for the Frontend Development Challenge. This application validates and takes user metrics (height in centimeters and weight in kilograms) to compute accurate Body Mass Index metrics while classifying health brackets with clear, color-coded contextual cues.
