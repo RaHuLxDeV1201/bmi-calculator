@@ -8,12 +8,12 @@ A clean, responsive, and performance-minded front-end application built for the 
 **Intuitive Visual Cues:** Incorporates dynamic CSS theme injections depending entirely on whether a user ranks inside underweight, healthy, overweight, or obese lines.
  **Clean Transitions:** Leverages cubic-bezier driven transforms to smoothly scale out scores without visual jarring.
 
-## 🛠️ Built With
+## Built With
 *   Semantic HTML5
 *   Tailwind CSS (Via fast-loading CDN integration)
 *   Vanilla Modern JavaScript (ES6+ Native DOM Engine)
 
-## 📦 Local Installation & Quickstart Steps
+## Local Installation & Quickstart Steps
 To deploy this project to your local runtime environment without any complex compilation layers:
 
 1. **Clone down this repository:**
