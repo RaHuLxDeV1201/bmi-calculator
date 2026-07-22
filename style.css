@@ -1,30 +1,45 @@
-/* Strip away native browser up/down arrow clickers on number input boxes */
+/* hide those annoying up/down arrows on number inputs in Chrome/Safari */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
+/* same fix but for Firefox */
 input[type=number] {
   appearance: textfield;
 }
 
-/* Animations Layouts */
+/* slide up animation for when the result card appears */
 @keyframes slideUpFade {
   from {
     opacity: 0;
     transform: translateY(12px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
+/* standard error shake for invalid inputs */
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-6px); }
-  40%, 80% { transform: translateX(6px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
 }
 
 .animate-result {
@@ -35,48 +50,62 @@ input[type=number] {
   animation: shake 0.3s ease-in-out;
 }
 
+/* force the dark mode button to stay on top so it doesn't get blocked by the form */
 #darkModeToggle {
   z-index: 50 !important;
 }
 
-/* Color Categories (Light mode profiles) */
+/* 
+  --- BMI Category Themes ---
+  Note: using !important here because Tailwind's default utility classes 
+  will override these if we just inject them via JS. 
+  Could probably refactor this into the tailwind config later, but this works for now.
+*/
+
+/* Light mode colors */
 .theme-underweight {
   background-color: #f0fdfa !important;
   border: 1px solid #ccfbf1 !important;
   color: #0f766e !important;
 }
+
 .theme-normal {
   background-color: #f0fdf4 !important;
   border: 1px solid #dcfce7 !important;
   color: #166534 !important;
 }
+
 .theme-overweight {
   background-color: #fffbeb !important;
   border: 1px solid #fef3c7 !important;
   color: #b45309 !important;
 }
+
 .theme-obese {
   background-color: #fef2f2 !important;
   border: 1px solid #fee2e2 !important;
   color: #b91c1c !important;
 }
 
-/* Dark Mode Overrides */
+/* Dark mode colors - applied when parent has .dark class */
 .dark .theme-underweight {
   background-color: rgba(12, 74, 110, 0.4) !important;
   border: 1px solid #075985 !important;
   color: #38bdf8 !important;
 }
+
 .dark .theme-normal {
   background-color: rgba(6, 78, 59, 0.4) !important;
   border: 1px solid #065f46 !important;
   color: #34d399 !important;
 }
+
 .dark .theme-overweight {
   background-color: rgba(120, 53, 15, 0.4) !important;
   border: 1px solid #92400e !important;
   color: #fbbf24 !important;
 }
+
 .dark .theme-obese {
   background-color: rgba(127, 29, 29, 0.4) !important;
   border: 1px solid #991b1b !important;
