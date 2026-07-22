@@ -7,53 +7,85 @@
     <link rel="icon" type="image/svg+xml" href="./public/Logo.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minimalist BMI Calculator</title>
-    <!-- Tailwind CSS Engine -->
+
+    <!-- Tailwind CSS Engine: Loaded via CDN for rapid styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+        // Configure Tailwind to use class-based dark mode instead of media queries
         tailwind.config = {
             darkMode: 'class'
         }
     </script>
     <style>
-        .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 200ms; }
-        
-        /* Error Shake Micro-Interaction */
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-5px); }
-            40%, 80% { transform: translateX(5px); }
+        /* Smooth transition for general UI changes (colors, borders, etc.) */
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 200ms;
         }
+
+        /* Error Shake Micro-Interaction: Triggers when validation fails */
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20%,
+            60% {
+                transform: translateX(-5px);
+            }
+
+            40%,
+            80% {
+                transform: translateX(5px);
+            }
+        }
+
         .animate-shake {
             animation: shake 0.3s ease-in-out;
         }
     </style>
 </head>
 
-<body class="bg-slate-50 dark:bg-slate-900 min-h-screen flex items-center justify-center p-4 transition-colors duration-300">
+<body
+    class="bg-slate-50 dark:bg-slate-900 min-h-screen flex items-center justify-center p-4 transition-colors duration-300">
 
-    <main class="relative bg-white dark:bg-slate-800 w-full max-w-md rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 p-6 sm:p-8 transition-all duration-300">
+    <!-- Main Application Container -->
+    <main
+        class="relative bg-white dark:bg-slate-800 w-full max-w-md rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 p-6 sm:p-8 transition-all duration-300">
 
-        <!-- Theme Toggle Button -->
+        <!-- Theme Toggle Button: Switches between Light and Dark mode -->
         <button id="darkModeToggle" type="button" aria-label="Toggle theme"
             class="absolute top-6 right-6 p-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 transition-colors duration-200 focus:outline-none">
+            <!-- Moon Icon (Visible in Light Mode) -->
             <svg id="moonIcon" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
             </svg>
-            <svg id="sunIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M16.243 17.657l.707.707M6.343 6.343l.707-.707M14.25 12a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
+            <!-- Sun Icon (Visible in Dark Mode) -->
+            <svg id="sunIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M16.243 17.657l.707.707M6.343 6.343l.707-.707M14.25 12a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z">
+                </path>
             </svg>
         </button>
 
+        <!-- App Header -->
         <header class="text-center mb-6">
             <img src="./public/Logo.svg" alt="App Logo" class="w-16 h-16 mx-auto mb-2 object-contain rounded-xl">
             <h1 class="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">BMI Calculator</h1>
             <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Calculate your Body Mass Index instantly</p>
         </header>
 
+        <!-- Calculator Form -->
         <form id="bmiForm" class="space-y-6" novalidate>
 
-            <!-- Unit Selection Bar -->
-            <div class="flex bg-slate-100 dark:bg-slate-700/60 p-1 rounded-xl border border-slate-200/40 dark:border-slate-600/30">
+            <!-- Unit Selection Bar: Toggles between Metric and Imperial inputs -->
+            <div
+                class="flex bg-slate-100 dark:bg-slate-700/60 p-1 rounded-xl border border-slate-200/40 dark:border-slate-600/30">
                 <button id="metricToggleBtn" type="button"
                     class="flex-1 text-center py-2 text-xs sm:text-sm font-bold rounded-lg bg-white dark:bg-slate-600 shadow-sm text-slate-800 dark:text-white transition-all duration-200">
                     Metric (cm/kg)
@@ -64,24 +96,28 @@
                 </button>
             </div>
 
-            <!-- METRIC FIELDS -->
+            <!-- METRIC FIELDS (Default visible) -->
             <div id="metricFields" class="space-y-6">
                 <div>
-                    <label for="height" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Height (cm)</label>
+                    <label for="height"
+                        class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Height (cm)</label>
                     <input type="number" id="height" placeholder="e.g., 175"
                         class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 text-slate-800 dark:text-white font-medium transition-all">
+                    <!-- Error message container -->
                     <p id="heightError" class="text-xs text-rose-500 font-medium mt-1.5 hidden"></p>
                 </div>
 
                 <div>
-                    <label for="weight" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Weight (kg)</label>
+                    <label for="weight"
+                        class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Weight (kg)</label>
                     <input type="number" id="weight" placeholder="e.g., 70"
                         class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 text-slate-800 dark:text-white font-medium transition-all">
+                    <!-- Error message container -->
                     <p id="weightError" class="text-xs text-rose-500 font-medium mt-1.5 hidden"></p>
                 </div>
             </div>
 
-            <!-- IMPERIAL FIELDS -->
+            <!-- IMPERIAL FIELDS (Hidden by default) -->
             <div id="imperialFields" class="space-y-6 hidden">
                 <div>
                     <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Height</label>
@@ -95,18 +131,21 @@
                                 class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 text-slate-800 dark:text-white font-medium transition-all">
                         </div>
                     </div>
+                    <!-- Error message container for combined height -->
                     <p id="imperialHeightError" class="text-xs text-rose-500 font-medium mt-1.5 hidden"></p>
                 </div>
 
                 <div>
-                    <label for="weightLbs" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Weight (lbs)</label>
+                    <label for="weightLbs"
+                        class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Weight (lbs)</label>
                     <input type="number" id="weightLbs" placeholder="e.g., 150"
                         class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 text-slate-800 dark:text-white font-medium transition-all">
+                    <!-- Error message container -->
                     <p id="weightLbsError" class="text-xs text-rose-500 font-medium mt-1.5 hidden"></p>
                 </div>
             </div>
 
-            <!-- Controls -->
+            <!-- Action Controls -->
             <div class="flex flex-col sm:flex-row gap-3 pt-2">
                 <button type="submit"
                     class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
@@ -119,17 +158,21 @@
             </div>
         </form>
 
-        <!-- Result Card -->
-        <section id="resultCard" aria-live="polite" class="mt-8 p-5 rounded-xl text-center transition-all bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900 text-emerald-900 dark:text-emerald-300">
+        <!-- Result Card: Dynamically updates colors and text based on calculation -->
+        <section id="resultCard" aria-live="polite"
+            class="mt-8 p-5 rounded-xl text-center transition-all bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900 text-emerald-900 dark:text-emerald-300">
             <h2 class="text-xs uppercase tracking-wider font-bold opacity-75">Your Score</h2>
             <div id="bmiValue" class="text-4xl font-black my-1">--.--</div>
-            <p id="bmiCategory" class="text-base font-bold uppercase tracking-wide mt-1 text-emerald-500 dark:text-emerald-400">Ready to Calculate</p>
+            <p id="bmiCategory"
+                class="text-base font-bold uppercase tracking-wide mt-1 text-emerald-500 dark:text-emerald-400">Ready to
+                Calculate</p>
 
             <p id="healthyInsight"
                 class="text-xs sm:text-sm mt-3 font-medium opacity-85 leading-relaxed border-t border-black/5 dark:border-white/10 pt-3">
                 Enter your metrics above to discover your Body Mass Index.
             </p>
 
+            <!-- Visual BMI Scale / Progress Bar -->
             <div class="mt-6 relative pt-4">
                 <div class="h-3 w-full rounded-full flex overflow-hidden bg-slate-100 dark:bg-slate-900">
                     <div class="w-1/4 bg-sky-400" title="Underweight"></div>
@@ -137,33 +180,42 @@
                     <div class="w-1/4 bg-amber-500" title="Overweight"></div>
                     <div class="w-1/4 bg-rose-500" title="Obese"></div>
                 </div>
+                <!-- Dynamic Pointer: Left position is updated via JS -->
                 <div id="bmiPointer"
                     class="absolute top-2.5 -ml-2 w-4 h-4 bg-slate-800 dark:bg-white border-2 border-white dark:border-slate-800 rounded-full shadow-md transition-all duration-500 ease-out"
                     style="left: 0%;"></div>
+
+                <!-- Scale labels -->
                 <div class="flex justify-between text-[10px] font-bold text-slate-400 dark:text-slate-500 mt-1.5 px-1">
                     <span>15</span><span>18.5</span><span>25</span><span>30</span><span>40+</span>
                 </div>
             </div>
         </section>
 
-        <!-- History Section -->
+        <!-- History Section: Accordion to view past calculations -->
         <section class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-700/60">
             <button id="historyToggleBtn" type="button"
                 class="w-full flex items-center justify-between py-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors focus:outline-none">
                 <span class="flex items-center gap-2">
-                    <svg class="w-4 h-4 min-w-[16px] min-h-[16px]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    <svg class="w-4 h-4 min-w-[16px] min-h-[16px]" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                     View Recent History
                 </span>
-                <svg id="historyChevron" class="w-4 h-4 min-w-[16px] min-h-[16px] transform transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <svg id="historyChevron"
+                    class="w-4 h-4 min-w-[16px] min-h-[16px] transform transition-transform duration-200" fill="none"
+                    stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
                 </svg>
             </button>
 
+            <!-- History List Container -->
             <div id="historyContent" class="hidden mt-3 space-y-2 max-h-48 overflow-y-auto pr-1">
                 <div id="historyList" class="space-y-2"></div>
-                <button id="clearHistoryBtn" type="button" class="w-full text-center text-xs font-semibold text-rose-500 hover:text-rose-600 dark:hover:text-rose-400 py-1.5 transition-colors hidden">
+                <button id="clearHistoryBtn" type="button"
+                    class="w-full text-center text-xs font-semibold text-rose-500 hover:text-rose-600 dark:hover:text-rose-400 py-1.5 transition-colors hidden">
                     Clear History Log
                 </button>
             </div>
@@ -173,9 +225,12 @@
     <!-- App Engine JavaScript Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- State Variables ---
             let currentUnit = 'metric';
+            // Load history from local storage or initialize empty array
             let historyLog = JSON.parse(localStorage.getItem('bmi_history')) || [];
 
+            // --- DOM Element References ---
             const htmlEl = document.documentElement;
             const darkModeToggle = document.getElementById('darkModeToggle');
             const sunIcon = document.getElementById('sunIcon');
@@ -197,13 +252,15 @@
             const historyList = document.getElementById('historyList');
             const clearHistoryBtn = document.getElementById('clearHistoryBtn');
 
-            // Dark Mode Setup
+            // --- Dark Mode Initialization ---
+            // Check localStorage preference OR system preference
             if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 htmlEl.classList.add('dark');
                 sunIcon.classList.remove('hidden');
                 moonIcon.classList.add('hidden');
             }
 
+            // Dark Mode Toggle Event
             darkModeToggle.addEventListener('click', () => {
                 if (htmlEl.classList.contains('dark')) {
                     htmlEl.classList.remove('dark');
@@ -218,11 +275,13 @@
                 }
             });
 
-            // Unit Switching Toggle
+            // --- Unit Switching Logic (Metric vs Imperial) ---
             const setUnitSystem = (system) => {
                 currentUnit = system;
                 clearValidationErrors();
                 checkAndHandleEmptyData();
+
+                // Toggle active/inactive button styles and show/hide corresponding fieldsets
                 if (system === 'metric') {
                     metricToggleBtn.className = "flex-1 text-center py-2 text-xs sm:text-sm font-bold rounded-lg bg-white dark:bg-slate-600 shadow-sm text-slate-800 dark:text-white transition-all duration-200";
                     imperialToggleBtn.className = "flex-1 text-center py-2 text-xs sm:text-sm font-bold rounded-lg text-slate-400 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-all duration-200";
@@ -239,7 +298,8 @@
             metricToggleBtn.addEventListener('click', () => setUnitSystem('metric'));
             imperialToggleBtn.addEventListener('click', () => setUnitSystem('imperial'));
 
-            // Reset Result Box to Safe Green Layout Configuration
+            // --- UI Reset Helpers ---
+            // Resets the result card back to its default "ready" state
             const resetResultToGreenBox = () => {
                 resultCard.className = "mt-8 p-5 rounded-xl text-center transition-all bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-900 text-emerald-900 dark:text-emerald-300";
                 bmiValueDisplay.innerText = "--.--";
@@ -249,7 +309,8 @@
                 bmiPointer.style.left = '0%';
             };
 
-            // Dynamic Styling Framework - guarantees 100% color separation (No mix of colors)
+            // Dynamic Styling Framework for Inputs
+            // Strips existing validation classes and applies new ones based on state
             const applyInputStyle = (inputEl, state) => {
                 inputEl.classList.remove(
                     'border-slate-200', 'dark:border-slate-600',
@@ -266,7 +327,7 @@
                 }
             };
 
-            // Monitors and updates UI when fields are completely empty
+            // Monitors and updates UI when active fields become completely empty
             const checkAndHandleEmptyData = () => {
                 const height = document.getElementById('height').value;
                 const weight = document.getElementById('weight').value;
@@ -281,8 +342,10 @@
                 }
             };
 
-            // Realtime monitor evaluates user numbers and forces precise coloration context
-            document.getElementById('height').addEventListener('input', function() {
+            // --- Realtime Input Validation Listeners ---
+
+            // Metric Height Validation
+            document.getElementById('height').addEventListener('input', function () {
                 const val = this.value.trim();
                 if (val === '') {
                     applyInputStyle(this, 'default');
@@ -301,7 +364,8 @@
                 checkAndHandleEmptyData();
             });
 
-            document.getElementById('weight').addEventListener('input', function() {
+            // Metric Weight Validation
+            document.getElementById('weight').addEventListener('input', function () {
                 const val = this.value.trim();
                 if (val === '') {
                     applyInputStyle(this, 'default');
@@ -320,7 +384,8 @@
                 checkAndHandleEmptyData();
             });
 
-            document.getElementById('weightLbs').addEventListener('input', function() {
+            // Imperial Weight Validation
+            document.getElementById('weightLbs').addEventListener('input', function () {
                 const val = this.value.trim();
                 if (val === '') {
                     applyInputStyle(this, 'default');
@@ -339,14 +404,15 @@
                 checkAndHandleEmptyData();
             });
 
+            // Imperial Height Validation (Combines Feet and Inches logic)
             const handleImperialHeightChange = () => {
                 const ftEl = document.getElementById('heightFt');
                 const inEl = document.getElementById('heightIn');
                 const errorEl = document.getElementById('imperialHeightError');
-                
+
                 const ftVal = ftEl.value.trim();
                 const inVal = inEl.value.trim();
-                
+
                 if (ftVal === '' && inVal === '') {
                     applyInputStyle(ftEl, 'default');
                     applyInputStyle(inEl, 'default');
@@ -355,15 +421,16 @@
                     const ft = parseFloat(ftVal) || 0;
                     const inch = parseFloat(inVal) || 0;
                     const totalInches = (ft * 12) + inch;
-                    
+
                     if (totalInches > 0 && totalInches <= 120 && ft >= 0 && inch >= 0) {
                         applyInputStyle(ftEl, 'valid');
                         applyInputStyle(inEl, 'valid');
                         errorEl.classList.add('hidden');
                     } else {
+                        // Mark individually if invalid
                         applyInputStyle(ftEl, (ftVal !== '' && (ft < 0 || totalInches > 120 || totalInches <= 0)) ? 'invalid' : 'default');
                         applyInputStyle(inEl, (inVal !== '' && (inch < 0 || totalInches > 120 || totalInches <= 0)) ? 'invalid' : 'default');
-                        
+
                         if (totalInches <= 0 || totalInches > 120 || ft < 0 || inch < 0) {
                             if (ftVal !== '') applyInputStyle(ftEl, 'invalid');
                             if (inVal !== '') applyInputStyle(inEl, 'invalid');
@@ -378,12 +445,15 @@
             document.getElementById('heightFt').addEventListener('input', handleImperialHeightChange);
             document.getElementById('heightIn').addEventListener('input', handleImperialHeightChange);
 
-            // Setup Base Standard Form Styles upon setup initialization
+            // Apply base default styles on initialization
             ['height', 'weight', 'heightFt', 'heightIn', 'weightLbs'].forEach(id => {
                 const el = document.getElementById(id);
-                if(el) applyInputStyle(el, 'default');
+                if (el) applyInputStyle(el, 'default');
             });
 
+            // --- Form Submission & Validation Handlers ---
+
+            // Triggers shake animation and shows error text
             const showError = (errorElementId, inputElementIds, message) => {
                 const errElement = document.getElementById(errorElementId);
                 if (errElement) {
@@ -392,18 +462,20 @@
                 }
 
                 const targetIds = Array.isArray(inputElementIds) ? inputElementIds : [inputElementIds];
-                
+
                 targetIds.forEach(id => {
                     const inputEl = document.getElementById(id);
                     if (inputEl) {
+                        // Trick to restart CSS animation: remove class, trigger reflow, add class back
                         inputEl.classList.remove('animate-shake');
-                        void inputEl.offsetWidth; 
+                        void inputEl.offsetWidth;
                         inputEl.classList.add('animate-shake');
                         applyInputStyle(inputEl, 'invalid');
                     }
                 });
             };
 
+            // Clears all existing validation errors before a new submission attempt
             const clearValidationErrors = () => {
                 ['heightError', 'weightError', 'imperialHeightError', 'weightLbsError'].forEach(id => {
                     const el = document.getElementById(id);
@@ -414,7 +486,6 @@
                     const inputEl = document.getElementById(id);
                     if (inputEl) {
                         inputEl.classList.remove('animate-shake');
-                        // Retain logic colors if value exists
                         if (inputEl.value.trim() === '') {
                             applyInputStyle(inputEl, 'default');
                         }
@@ -422,9 +493,9 @@
                 });
             };
 
-            // Calculate Logic
+            // Final Calculation Logic on Submit
             bmiForm.addEventListener('submit', (e) => {
-                e.preventDefault();
+                e.preventDefault(); // Prevent page reload
                 let isValid = true;
                 let bmi = 0;
 
@@ -441,6 +512,7 @@
                         isValid = false;
                     }
                     if (isValid) {
+                        // Formula: weight (kg) / [height (m)]^2
                         bmi = weightKg / ((heightCm / 100) ** 2);
                     }
                 } else {
@@ -458,6 +530,7 @@
                         isValid = false;
                     }
                     if (isValid) {
+                        // Formula: 703 x weight (lbs) / [height (in)]^2
                         bmi = (weightLbs * 703) / (totalInches ** 2);
                     }
                 }
@@ -468,15 +541,17 @@
                 }
             });
 
+            // Updates the result card UI with dynamic colors and text based on the BMI score
             const displayBmiResult = (bmi) => {
                 const finalBmi = parseFloat(bmi.toFixed(1));
                 bmiValueDisplay.innerText = finalBmi.toFixed(1);
-                
+
                 let category = '';
                 let advice = '';
                 let themeClasses = '';
                 let textClass = '';
 
+                // Categorize based on standard WHO BMI thresholds
                 if (finalBmi < 18.5) {
                     category = 'Underweight';
                     advice = 'Prioritize nutrient-dense profiles and strength training targets.';
@@ -499,18 +574,22 @@
                     textClass = 'text-rose-500 dark:text-rose-400';
                 }
 
+                // Apply dynamic classes
                 resultCard.className = `mt-8 p-5 rounded-xl text-center transition-all ${themeClasses}`;
                 bmiCategoryDisplay.innerText = category;
                 bmiCategoryDisplay.className = `text-base font-bold uppercase tracking-wide mt-1 ${textClass}`;
                 healthyInsight.innerText = advice;
 
+                // Move the scale pointer. (Calculates percentage assuming scale visually maps from BMI 15 to 40)
                 let pointerPct = ((finalBmi - 15) / (40 - 15)) * 100;
-                bmiPointer.style.left = `${Math.min(Math.max(pointerPct, 0), 100)}%`;
+                bmiPointer.style.left = `${Math.min(Math.max(pointerPct, 0), 100)}%`; // Clamps between 0% and 100%
 
                 saveToHistory(finalBmi, category);
             };
 
-            // History Log Module
+            // --- History Log Module ---
+
+            // Saves successful calculation to array and synchronizes with localStorage
             const saveToHistory = (bmi, category) => {
                 const logEntry = {
                     id: Date.now(),
@@ -518,12 +597,13 @@
                     category: category,
                     date: new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
                 };
-                historyLog.unshift(logEntry);
-                if (historyLog.length > 5) historyLog.pop();
+                historyLog.unshift(logEntry); // Add to beginning of array
+                if (historyLog.length > 5) historyLog.pop(); // Keep only the latest 5 entries
                 localStorage.setItem('bmi_history', JSON.stringify(historyLog));
                 renderHistoryLog();
             };
 
+            // Renders the HTML list of previous calculations inside the accordion
             const renderHistoryLog = () => {
                 historyList.innerHTML = '';
                 if (historyLog.length === 0) {
@@ -533,6 +613,7 @@
                 }
 
                 historyLog.forEach(item => {
+                    // Determine badge colors based on saved category string
                     let badgeColor = 'bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300';
                     if (item.category.includes('Underweight')) badgeColor = 'bg-sky-100 text-sky-800 dark:bg-sky-900/50 dark:text-sky-300';
                     if (item.category.includes('Normal')) badgeColor = 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300';
@@ -553,6 +634,7 @@
                 clearHistoryBtn.classList.remove('hidden');
             };
 
+            // Accordion toggle behavior for the History section
             historyToggleBtn.addEventListener('click', () => {
                 const isOpen = !historyContent.classList.contains('hidden');
                 if (isOpen) {
@@ -565,17 +647,19 @@
                 }
             });
 
+            // Wipe history arrays and localStorage
             clearHistoryBtn.addEventListener('click', () => {
                 historyLog = [];
                 localStorage.removeItem('bmi_history');
                 renderHistoryLog();
             });
 
+            // Resets everything: Form, Inputs, Validation states, and Results Box
             resetBtn.addEventListener('click', () => {
                 bmiForm.reset();
                 ['height', 'weight', 'heightFt', 'heightIn', 'weightLbs'].forEach(id => {
                     const el = document.getElementById(id);
-                    if(el) applyInputStyle(el, 'default');
+                    if (el) applyInputStyle(el, 'default');
                 });
                 clearValidationErrors();
                 resetResultToGreenBox();
