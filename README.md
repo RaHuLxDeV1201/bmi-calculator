@@ -59,16 +59,17 @@ Deploy this project to your local runtime environment without complex build tool
 Bash
 git clone [https://github.com/RaHuLxDeV1201/bmi-calculator.git](https://github.com/RaHuLxDeV1201/bmi-calculator.git)
 ```
-Navigate into the project directory:
-
+## Navigate into the project directory:
+```text
 Bash
 cd bmi-calculator
+```
 ## Launch the app:
-
+```text
 Direct: Double-click index.html to open it in your browser.
 
 Live Server (VS Code): Right-click index.html and select "Open with Live Server".
-
+```
 ## 📜 License
 Distributed under the MIT License. See LICENSE for more information.
 
