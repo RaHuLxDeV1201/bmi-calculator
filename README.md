@@ -72,15 +72,3 @@ Live Server (VS Code): Right-click index.html and select "Open with Live Server"
 ```
 ## 📜 License
 Distributed under the MIT License. See LICENSE for more information.
-
-## Key Improvements Made:
-
-* **Completed Local Setup:** Added step 2 (cd bmi-calculator) and step 3 (launch options) which were previously missing.
-
-* **Added Tech & Status Badges:** Clean visual indicators at the top for GitHub Pages, license, and technologies used.
-
-* **Reference Table:** Included a quick WHO BMI Category table so users understand what outputs to expect.
-
-* **Project Structure:** Added a file-tree breakdown to make the project architecture clear at a glance.
-
-* **Contributing & License:** Included standard open-source sections to make the repo look complete.
