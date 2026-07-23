@@ -9,6 +9,7 @@
 
 A lightweight, high-performance web application designed for accurate Body Mass Index (BMI) computation and immediate health risk classification. Built with a zero-dependency architecture, the application delivers real-time validation, adaptive color-coded health categorization, and dynamic micro-interactions.
 
+![bmi-calculator Preview](./public/preview.png)
 ---
 
 ## 📑 Table of Contents
