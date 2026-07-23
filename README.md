@@ -21,7 +21,6 @@ A lightweight, high-performance web application designed for accurate Body Mass 
 - [Technology Stack & Architecture](#-technology-stack--architecture)
 - [Directory Structure](#-directory-structure)
 - [Local Setup & Deployment](#-local-setup--deployment)
-- [Contributing](#-contributing)
 - [License](#-license)
 
 ---
