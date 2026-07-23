@@ -43,13 +43,13 @@ The application calculates score metrics using standard World Health Organizatio
 
 ## 📂 Project Structure
 
-```text
 bmi-calculator/
 ├── index.html        # Main HTML structure & dynamic Tailwind layout
 ├── style.css         # Custom animations & fallback CSS override rules
 ├── script.js         # Math logic, UI state bindings, and input validation
 └── README.md         # Project documentation
-```
+
+---
 
 ## 🚀 Quickstart & Local Setup
 Deploy this project to your local runtime environment without complex build tooling:
