@@ -52,6 +52,9 @@ The application calculates score metrics using standard World Health Organizatio
 * **HTML5:** Semantic element structure for accessibility and SEO.
 * **Tailwind CSS:** Utility-first CSS via CDN for rapid responsive layout styling.
 * **Vanilla Modern JavaScript (ES6+):** Lightweight DOM manipulation, validation logic, and state management without heavy framework overhead.
+[![Built With HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
 ---
 
