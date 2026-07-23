@@ -52,6 +52,7 @@ The application calculates score metrics using standard World Health Organizatio
 * **HTML5:** Semantic element structure for accessibility and SEO.
 * **Tailwind CSS:** Utility-first CSS via CDN for rapid responsive layout styling.
 * **Vanilla Modern JavaScript (ES6+):** Lightweight DOM manipulation, validation logic, and state management without heavy framework overhead.
+
 [![Built With HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
@@ -87,19 +88,6 @@ Deploy this project to your local runtime environment without complex build tool
 3. **Launch the app:**
    * **Direct:** Double-click `index.html` to open it in your browser.
    * **Live Server (VS Code):** Right-click `index.html` and select **"Open with Live Server"**.
-
----
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!  
-Feel free to check the [Issues page](https://github.com/RaHuLxDeV1201/bmi-calculator/issues) if you want to report a bug or request a feature.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git checkout -b feature/AmazingFeature`)
-5. Open a Pull Request
 
 ---
 
