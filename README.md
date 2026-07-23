@@ -55,9 +55,10 @@ bmi-calculator/
 Deploy this project to your local runtime environment without complex build tooling:
 
 ## Clone the repository:
-
+```text
 Bash
 git clone [https://github.com/RaHuLxDeV1201/bmi-calculator.git](https://github.com/RaHuLxDeV1201/bmi-calculator.git)
+```
 Navigate into the project directory:
 
 Bash
