@@ -77,6 +77,11 @@ $$BMI = \frac{\text{weight (kg)}}{\left(\text{height (m)}\right)^2}$$
 * **Tailwind CSS (CDN Integration):** Utility-first styling framework enabling adaptive layout management.
 * **Vanilla JavaScript (ES6+):** Pure DOM manipulation and state management engine execution without framework overhead.
 
+* [![Built With HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+
+
 ---
 
 ## 📂 Directory Structure
@@ -111,17 +116,7 @@ Follow these steps to run the application locally without requiring additional r
 
 ---
 
-## 🤝 Contributing
 
-Contributions, feature proposals, and bug reports are welcome. 
-
-1. Fork the repository.
-2. Create a targeted feature branch (`git checkout -b feature/NewFeature`).
-3. Commit your changes (`git commit -m 'feat: Add NewFeature'`).
-4. Push to the remote branch (`git push origin feature/NewFeature`).
-5. Open a Pull Request for code review.
-
----
 
 ## 📜 License
 
