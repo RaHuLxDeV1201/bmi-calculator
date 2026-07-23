@@ -1,79 +1,99 @@
-# 📊 Minimalist & Responsive BMI Calculator
+# 📊 BMI Calculator — Minimalist & Responsive Web Application
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-View_Here-blue?style=for-the-badge&logo=githubpages&logoColor=white)](https://rahulxdev1201.github.io/bmi-calculator/)
-[![Performance](https://img.shields.io/badge/Performance-97%25-brightgreen?style=for-the-badge&logo=googlechrome&logoColor=white)](https://rahulxdev1201.github.io/bmi-calculator/)
-[![Accessibility](https://img.shields.io/badge/Accessibility-95%25-brightgreen?style=for-the-badge)](https://rahulxdev1201.github.io/bmi-calculator/)
-[![Best Practices](https://img.shields.io/badge/Best_Practices-100%25-brightgreen?style=for-the-badge)](https://rahulxdev1201.github.io/bmi-calculator/)
-[![SEO](https://img.shields.io/badge/SEO-91%25-brightgreen?style=for-the-badge)](https://rahulxdev1201.github.io/bmi-calculator/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-View_Application-0052CC?style=for-the-badge&logo=githubpages&logoColor=white)](https://rahulxdev1201.github.io/bmi-calculator/)
+[![Performance Score](https://img.shields.io/badge/Lighthouse_Performance-97%25-brightgreen?style=for-the-badge&logo=googlechrome&logoColor=white)](https://rahulxdev1201.github.io/bmi-calculator/)
+[![Accessibility Score](https://img.shields.io/badge/Accessibility-95%25-brightgreen?style=for-the-badge)](https://rahulxdev1201.github.io/bmi-calculator/)
+[![Best Practices Score](https://img.shields.io/badge/Best_Practices-100%25-brightgreen?style=for-the-badge)](https://rahulxdev1201.github.io/bmi-calculator/)
+[![SEO Score](https://img.shields.io/badge/SEO-91%25-brightgreen?style=for-the-badge)](https://rahulxdev1201.github.io/bmi-calculator/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 
-A clean, light-weight, and responsive front-end web application built for calculating Body Mass Index (BMI). It accepts user metrics (height in centimeters and weight in kilograms), performs real-time validation, computes accurate BMI values, and visually categorizes health ranges with clear dynamic feedback.
-
----
-
-## ⚡ Lighthouse Audit Scores
-
-Optimized for web performance, accessibility standards, and modern front-end best practices:
-
-| Metric | Score | Status |
-| :--- | :---: | :--- |
-| ⚡ **Performance** | **97 / 100** | 🟢 Excellent |
-| ♿ **Accessibility** | **95 / 100** | 🟢 Excellent |
-| ✅ **Best Practices** | **100 / 100** | 🟢 Perfect |
-| 🔍 **SEO** | **91 / 100** | 🟢 Excellent |
+A lightweight, high-performance web application designed for accurate Body Mass Index (BMI) computation and immediate health risk classification. Built with a zero-dependency architecture, the application delivers real-time validation, adaptive color-coded health categorization, and dynamic micro-interactions.
 
 ---
 
-## ✨ Key Features
+## 📑 Table of Contents
 
-* **📱 Fully Responsive Grid System:** Fluid design system that scales smoothly from smartphones to widescreen desktop displays.
-* **🛡️ Defensive Input Validation:** Handles empty payloads, alphabetic characters, and mathematically impossible physical values with friendly user micro-copy.
-* **🎨 Dynamic Visual Cues:** Injects context-aware UI color schemes depending on the calculated health category (Underweight, Normal weight, Overweight, Obese).
-* **⚡ Smooth Animations:** Uses dynamic CSS transforms to seamlessly animate output scores and health indicators without layout shifts.
-* **🚀 Zero Build Step:** Lightweight architecture running pure modern Vanilla JS and CDN-based Tailwind CSS—no heavy node modules or bundlers needed.
+- [Overview](#-overview)
+- [Key Features & Engineering Highlights](#-key-features--engineering-highlights)
+- [Lighthouse Audit Metrics](#-lighthouse-audit-metrics)
+- [Calculation Methodology](#-calculation-methodology)
+- [Technology Stack & Architecture](#-technology-stack--architecture)
+- [Directory Structure](#-directory-structure)
+- [Local Setup & Deployment](#-local-setup--deployment)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ---
 
-## 🎯 BMI Health Categories Reference
+## 📖 Overview
 
-The application calculates score metrics using standard World Health Organization (WHO) ranges:
+The **BMI Calculator** provides users with an instant assessment of their physical health categorization based on standardized metrics. Designed with simplicity, speed, and accessibility in mind, the application processes height and weight inputs locally without network overhead, presenting results alongside visual indicator states.
 
-| BMI Range (kg/m²) | Health Category | Visual Indicator |
+---
+
+## ✨ Key Features & Engineering Highlights
+
+* **🛡️ Client-Side Validation Engine:** Intercepts invalid inputs—including empty fields, non-numeric strings, and out-of-range physical values—providing clear UI micro-copy responses.
+* **🎨 Dynamic Contextual Styling:** Dynamically updates UI color palettes and indicators depending on the calculated classification (Underweight, Normal Weight, Overweight, or Obese).
+* **⚡ Zero-Shift Transitions:** Employs optimized CSS transforms (`cubic-bezier` easing) to render score transitions smoothly without triggering expensive layout reflows.
+* **📱 Fully Responsive Design:** Utilizes a fluid grid layout optimized for mobile viewports, tablet form factors, and widescreen desktop monitors.
+* **🚀 Zero Build Step Overhead:** Built natively without external bundlers or heavy node dependencies, guaranteeing minimal cold-start load time.
+
+---
+
+## ⚡ Lighthouse Audit Metrics
+
+The application has been audited using Google Lighthouse to ensure high standards in performance, web accessibility, and code quality:
+
+| Metric | Score | Rating | Optimization Focus |
+| :--- | :---: | :---: | :--- |
+| ⚡ **Performance** | **97 / 100** | 🟢 Excellent | Minimal DOM size, deferred script loading, fast execution. |
+| ♿ **Accessibility** | **95 / 100** | 🟢 Excellent | High color contrast ratios, screen-reader friendly elements. |
+| ✅ **Best Practices** | **100 / 100** | 🟢 Perfect | Modern HTML5 standards, zero console errors, clean execution. |
+| 🔍 **SEO** | **91 / 100** | 🟢 Excellent | Optimized document metadata and structured headings. |
+
+---
+
+## 📐 Calculation Methodology
+
+Body Mass Index (BMI) is calculated using standard World Health Organization (WHO) formulas:
+
+$$BMI = \frac{\text{weight (kg)}}{\left(\text{height (m)}\right)^2}$$
+
+### Health Classification Reference Table
+
+| BMI Index ($kg/m^2$) | Classification | Status Indicator |
 | :--- | :--- | :--- |
 | **< 18.5** | Underweight | 🟦 Blue |
 | **18.5 – 24.9** | Normal Weight | 🟩 Green |
-| **25.0 – 29.9** | Overweight | 🟨 Yellow / Orange |
+| **25.0 – 29.9** | Overweight | 🟨 Yellow |
 | **≥ 30.0** | Obese | 🟥 Red |
 
 ---
 
-## 🛠️ Built With
+## 🛠️ Technology Stack & Architecture
 
-* **HTML5:** Semantic element structure for accessibility and SEO.
-* **Tailwind CSS:** Utility-first CSS via CDN for rapid responsive layout styling.
-* **Vanilla Modern JavaScript (ES6+):** Lightweight DOM manipulation, validation logic, and state management without heavy framework overhead.
-
-[![Built With HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+* **HTML5:** Semantic architecture ensuring full WCAG compliance and optimal search engine discoverability.
+* **Tailwind CSS (CDN Integration):** Utility-first styling framework enabling adaptive layout management.
+* **Vanilla JavaScript (ES6+):** Pure DOM manipulation and state management engine execution without framework overhead.
 
 ---
 
-## 📂 Project Structure
+## 📂 Directory Structure
 
 ```text
 bmi-calculator/
-├── index.html        # Main HTML structure & dynamic Tailwind layout
-├── style.css         # Custom animations & fallback CSS override rules
-├── script.js         # Math logic, UI state bindings, and input validation
-└── README.md         # Project documentation
+├── index.html        # Primary HTML document & responsive structure
+├── style.css         # Dynamic UI state styles & keyframe transitions
+├── script.js         # Input validation, math engine, & DOM handlers
+└── README.md         # Technical project documentation
 ```
 
 ---
 
-## 🚀 Quickstart & Local Setup
+## 🚀 Local Setup & Deployment
 
-Deploy this project to your local runtime environment without complex build tooling:
+Follow these steps to run the application locally without requiring additional runtime bundlers:
 
 1. **Clone the repository:**
    ```bash
@@ -85,18 +105,30 @@ Deploy this project to your local runtime environment without complex build tool
    cd bmi-calculator
    ```
 
-3. **Launch the app:**
-   * **Direct:** Double-click `index.html` to open it in your browser.
-   * **Live Server (VS Code):** Right-click `index.html` and select **"Open with Live Server"**.
+3. **Open the application:**
+   * **Direct Execution:** Open `index.html` directly in any standard browser.
+   * **VS Code Live Server:** Right-click `index.html` and select **"Open with Live Server"**.
+
+---
+
+## 🤝 Contributing
+
+Contributions, feature proposals, and bug reports are welcome. 
+
+1. Fork the repository.
+2. Create a targeted feature branch (`git checkout -b feature/NewFeature`).
+3. Commit your changes (`git commit -m 'feat: Add NewFeature'`).
+4. Push to the remote branch (`git push origin feature/NewFeature`).
+5. Open a Pull Request for code review.
 
 ---
 
 ## 📜 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for complete details.
 
 ---
 
 <p align="center">
-  Crafted by <a href="https://github.com/RaHuLxDeV1201">Rahul Dev</a>
+  Engineered by <a href="https://github.com/RaHuLxDeV1201"><strong>Rahul Dev</strong></a>
 </p>
