@@ -38,9 +38,8 @@ The application calculates score metrics using standard World Health Organizatio
 * **HTML5:** Semantic element structure for accessibility and SEO.
 * **Tailwind CSS:** Utility-first CSS via CDN for rapid responsive layout styling.
 * **Vanilla Modern JavaScript (ES6+):** Lightweight DOM manipulation, validation logic, and state management without heavy framework overhead.
-  ---
-[![Live Demo](https://img.shields.io/badge/Live_Demo-View_Here-blue?style=for-the-badge&logo=githubpages&logoColor=white)](https://rahulxdev1201.github.io/bmi-calculator/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
+  
+
 [![Built With HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)]
   
 
