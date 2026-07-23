@@ -1,11 +1,9 @@
 # 📊 Minimalist & Responsive BMI Calculator
-
-[![Live Demo](https://img.shields.io/badge/Live_Demo-View_Here-blue?style=for-the-badge&logo=githubpages&logoColor=white)](https://rahulxdev1201.github.io/bmi-calculator/)
-[![Performance](https://img.shields.io/badge/Performance-97%25-brightgreen?style=for-the-badge&logo=googlechrome&logoColor=white)](https://rahulxdev1201.github.io/bmi-calculator/)
-[![Accessibility](https://img.shields.io/badge/Accessibility-95%25-brightgreen?style=for-the-badge)](https://rahulxdev1201.github.io/bmi-calculator/)
 [![Best Practices](https://img.shields.io/badge/Best_Practices-100%25-brightgreen?style=for-the-badge)](https://rahulxdev1201.github.io/bmi-calculator/)
 [![SEO](https://img.shields.io/badge/SEO-91%25-brightgreen?style=for-the-badge)](https://rahulxdev1201.github.io/bmi-calculator/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
 A clean, light-weight, and responsive front-end web application built for calculating Body Mass Index (BMI). It accepts user metrics (height in centimeters and weight in kilograms), performs real-time validation, computes accurate BMI values, and visually categorizes health ranges with clear dynamic feedback.
 
@@ -21,6 +19,9 @@ Optimized for web performance, accessibility standards, and modern front-end bes
 | ♿ **Accessibility** | **95 / 100** | 🟢 Excellent |
 | ✅ **Best Practices** | **100 / 100** | 🟢 Perfect |
 | 🔍 **SEO** | **91 / 100** | 🟢 Excellent |
+[![Live Demo](https://img.shields.io/badge/Live_Demo-View_Here-blue?style=for-the-badge&logo=githubpages&logoColor=white)](https://rahulxdev1201.github.io/bmi-calculator/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
+[![Built With HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)]
 
 ---
 
