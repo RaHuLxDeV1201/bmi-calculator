@@ -125,5 +125,5 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 ---
 
 <p align="center">
-  Engineered by <a href="https://github.com/RaHuLxDeV1201"><strong>RaHuLxDev</strong></a>
+  Engineered by <a href="https://github.com/RaHuLxDeV1201"><strong>RaHuLxDeV</strong></a>
 </p>
